@@ -70,8 +70,29 @@ public class Context {
 		
 	}
 	
+	public void moveGCP(int index, Coordinate basicCoord, Coordinate groundCoord) {
+		
+		try{
+			GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
+			Coordinate newBCoord[] = {basicCoord};
+			CoordinateSequence newBasicCoord = new CoordinateArraySequence(newBCoord);
+			Coordinate newGCoord[] = {groundCoord};
+			CoordinateSequence newGroundCoord = new CoordinateArraySequence(newGCoord);
+			PointConnu newPt = new PointConnu(newBasicCoord, newGroundCoord, geometryFactory);
+			this.controlPoints.set(index, newPt);
+		}
+		catch(Exception e){
+			e.getMessage();
+		}
+		
+	}
+	
 	public void deleteGCP(PointConnu pt) {
 		this.controlPoints.remove(pt);
+	}
+	
+	public void deleteGCP(int index) {
+		this.controlPoints.remove(index);
 	}
 	
 	//Add, move and delete check points
@@ -97,8 +118,29 @@ public class Context {
 		
 	}
 	
+	public void moveCP(int index, Coordinate basicCoord, Coordinate groundCoord) {
+		
+		try{
+			GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
+			Coordinate newBCoord[] = {basicCoord};
+			CoordinateSequence newBasicCoord = new CoordinateArraySequence(newBCoord);
+			Coordinate newGCoord[] = {groundCoord};
+			CoordinateSequence newGroundCoord = new CoordinateArraySequence(newGCoord);
+			PointConnu newPt = new PointConnu(newBasicCoord, newGroundCoord, geometryFactory);
+			this.checkPoints.set(index, newPt);
+		}
+		catch(Exception e){
+			e.getMessage();
+		}
+		
+	}
+	
 	public void deleteCP(PointConnu pt) {
 		this.checkPoints.remove(pt);
+	}
+	
+	public void deleteCP(int index) {
+		this.checkPoints.remove(index);
 	}
 	
 	//Target file setter
