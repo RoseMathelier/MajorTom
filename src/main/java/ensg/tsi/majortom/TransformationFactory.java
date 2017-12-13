@@ -1,10 +1,5 @@
 package ensg.tsi.majortom;
 
-enum TypeTransfo{
-	LINEAIRE, 
-	HELBERT
-}
-
 public class TransformationFactory {
 	
 	public Transformation createTransfo(TypeTransfo type) {

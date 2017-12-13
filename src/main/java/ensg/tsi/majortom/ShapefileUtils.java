@@ -34,7 +34,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
-public class TestGeoTools {
+public class ShapefileUtils {
 	
 	public static void readShp() throws IOException {
 		
@@ -48,7 +48,7 @@ public class TestGeoTools {
 
 	    FeatureSource<SimpleFeatureType, SimpleFeature> source = dataStore
 	            .getFeatureSource(typeName);
-	    Filter filter = Filter.INCLUDE; // ECQL.toFilter("BBOX(THE_GEOM, 10,20,30,40)")
+	    Filter filter = Filter.INCLUDE;
 
 	    FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
 	    
@@ -64,6 +64,23 @@ public class TestGeoTools {
 	    finally {
 	    
 	    }
+	}
+	
+	public static FeatureCollection<SimpleFeatureType, SimpleFeature> getFeatureCollectionsFromShp(File file) throws IOException{
+		
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("url", file.toURI().toURL());
+
+	    DataStore dataStore = DataStoreFinder.getDataStore(map);
+	    String typeName = dataStore.getTypeNames()[0];
+
+	    FeatureSource<SimpleFeatureType, SimpleFeature> source = dataStore
+	            .getFeatureSource(typeName);
+	    Filter filter = Filter.INCLUDE;
+
+	    FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
+	    
+	    return collection;
 	}
 	
 	
