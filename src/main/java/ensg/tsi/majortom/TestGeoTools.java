@@ -110,7 +110,7 @@ public class TestGeoTools {
 		
 		FileDataStoreFactorySpi factory = FileDataStoreFinder.getDataStoreFactory("shp");
 
-		File file = new File("outputs/result.shp");
+		File file = new File("outputs/test.shp");
 		Map map = Collections.singletonMap("url", file.toURI().toURL());
 
 		DataStore dataStore = factory.createNewDataStore(map);
