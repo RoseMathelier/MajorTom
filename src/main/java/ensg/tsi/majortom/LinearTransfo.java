@@ -8,4 +8,9 @@ public class LinearTransfo extends Transformation {
 		
 	}
 
+	@Override
+	public int getNbMinGCP() {
+		return 2;
+	}
+
 }

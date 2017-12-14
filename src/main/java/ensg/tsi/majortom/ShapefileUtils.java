@@ -1,5 +1,7 @@
 package ensg.tsi.majortom;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,8 +48,7 @@ public class ShapefileUtils {
 	    DataStore dataStore = DataStoreFinder.getDataStore(map);
 	    String typeName = dataStore.getTypeNames()[0];
 
-	    FeatureSource<SimpleFeatureType, SimpleFeature> source = dataStore
-	            .getFeatureSource(typeName);
+	    FeatureSource<SimpleFeatureType, SimpleFeature> source = dataStore.getFeatureSource(typeName);
 	    Filter filter = Filter.INCLUDE;
 
 	    FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
@@ -81,6 +82,27 @@ public class ShapefileUtils {
 	    FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
 	    
 	    return collection;
+	}
+	
+	public static List<Coordinate> getPointsCoordsFromShp(File file) throws IOException{
+		
+		List<Coordinate> lCoord = new ArrayList<Coordinate>();
+		
+		FeatureCollection<SimpleFeatureType, SimpleFeature> collection = getFeatureCollectionsFromShp(file);
+		try {
+	    	FeatureIterator<SimpleFeature> features = collection.features();
+	        while (features.hasNext()) {
+	            SimpleFeature feature = features.next();
+	            Point pt = (Point) feature.getDefaultGeometryProperty().getValue();
+	            lCoord.add(pt.getCoordinate());
+	        }
+	    }
+		catch(Exception e){
+			System.out.println(e);
+		}
+		
+		return lCoord;
+		
 	}
 	
 	

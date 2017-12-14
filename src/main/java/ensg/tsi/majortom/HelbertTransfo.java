@@ -8,4 +8,9 @@ public class HelbertTransfo extends Transformation{
 		
 	}
 
+	@Override
+	public int getNbMinGCP() {
+		return 2;
+	}
+
 }

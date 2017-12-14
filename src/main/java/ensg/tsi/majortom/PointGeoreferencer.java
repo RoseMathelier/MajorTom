@@ -13,6 +13,7 @@ public class PointGeoreferencer extends Georeferencer{
 		
 		//Récupérer la transformation
 		Transformation transfo = this.getTransfoFactory().createTransfo(type);
+		transfo.setTransfoFromGCP();
 		
 		//Lire le shapefile
 		File layerFile = this.getContext().getTargetFile();

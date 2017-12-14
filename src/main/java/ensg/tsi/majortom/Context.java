@@ -17,6 +17,7 @@ public class Context {
 	private List<PointConnu> controlPoints;
 	private List<PointConnu> checkPoints;
 	private File targetFile;
+	private File outputFile;
 	
 	//Constructor
 	public Context(){
@@ -44,6 +45,10 @@ public class Context {
 	
 	public File getTargetFile(){
 		return this.targetFile;
+	}
+	
+	public File getOutputFile(){
+		return this.outputFile;
 	}
 	
 	
@@ -146,6 +151,10 @@ public class Context {
 	//Target file setter
 	public void setTargetFile(File file){
 		this.targetFile = file;
+	}
+	
+	void setOutputFile(File file){ //default visibility
+		this.outputFile = file;
 	}
 
 }

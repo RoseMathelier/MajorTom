@@ -9,6 +9,10 @@ public abstract class Georeferencer {
 		return this.getContext();
 	}
 	
+	public void setContext(Context c){
+		this.context = c;
+	}
+	
 	public TransformationFactory getTransfoFactory() {
 		return this.getTransfoFactory();
 	}

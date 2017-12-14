@@ -12,7 +12,7 @@ public class TransformationFactory {
 			case HELBERT:
 				transfo = new HelbertTransfo();
 			default:
-				//gérer exception
+				//TODO : manage exception
 				transfo = new HelbertTransfo();
 		}
 		
