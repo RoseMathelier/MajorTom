@@ -8,11 +8,11 @@ import com.vividsolutions.jts.geom.Coordinate;
 public class PointGeoreferencer extends Georeferencer{
 
 	@Override
-	public void applyTransfo(TypeTransfo type) {
+	public void applyTransfo(List<PointConnu> GCPs, TypeTransfo type) {
 		
 		//Get the transformation
 		Transformation transfo = this.getTransfoFactory().createTransfo(type);
-		transfo.setTransfoFromGCP();
+		transfo.setTransfoFromGCP(GCPs);
 		Parameters param = transfo.getParam();
 					
 		//Get the input and output path

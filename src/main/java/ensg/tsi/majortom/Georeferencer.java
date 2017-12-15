@@ -1,5 +1,7 @@
 package ensg.tsi.majortom;
 
+import java.util.List;
+
 public abstract class Georeferencer {
 	
 	private Context context;
@@ -14,13 +16,16 @@ public abstract class Georeferencer {
 	}
 	
 	public void setContext(String inputPath, String outputPath){
-		//TODO: handle exceptions !!
+		
+		//TODO: handle exceptions (invalid path)
 		Context c = new Context();
 		c.setInputPath(inputPath);
 		c.setOutputPath(outputPath);
 		this.context = c;
 	}
 	
-	public abstract void applyTransfo(TypeTransfo type);
+	//TODO: handle exception (not enough GCPs)
+	
+	public abstract void applyTransfo(List<PointConnu> GCPs, TypeTransfo type);
 
 }

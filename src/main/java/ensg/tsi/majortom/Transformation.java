@@ -1,5 +1,7 @@
 package ensg.tsi.majortom;
 
+import java.util.List;
+
 public abstract class Transformation {
 	
 	private int nbMinGCP;
@@ -11,6 +13,10 @@ public abstract class Transformation {
 		return this.param;
 	}
 	
-	public abstract void setTransfoFromGCP();
+	public void setParam(Parameters param){
+		this.param = param;
+	}
+	
+	public abstract void setTransfoFromGCP(List<PointConnu> GCPs);
 
 }

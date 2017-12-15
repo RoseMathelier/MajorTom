@@ -56,6 +56,7 @@ public class ShapefileUtils {
 	    	FeatureIterator<SimpleFeature> features = collection.features();
 	        while (features.hasNext()) {
 	            SimpleFeature feature = features.next();
+	            System.out.println(feature.toString());
 	        }
 	    }
 	    catch(Exception e) {
@@ -140,7 +141,7 @@ public class ShapefileUtils {
 			features.add(feature);
 		}
 		
-		//Shapefile creation
+		//Layer creation
 		
 		FileDataStoreFactorySpi factory = FileDataStoreFinder.getDataStoreFactory("shp");
 		File file = new File(outPath);
