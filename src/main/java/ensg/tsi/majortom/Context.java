@@ -16,14 +16,15 @@ public class Context {
 	//Attributes
 	private List<PointConnu> controlPoints;
 	private List<PointConnu> checkPoints;
-	private File targetFile;
-	private File outputFile;
+	private String inputPath;
+	private String outputPath;
 	
 	//Constructor
 	public Context(){
 		this.controlPoints = new ArrayList<PointConnu>();
 		this.checkPoints = new ArrayList<PointConnu>();
-		this.targetFile = null;
+		this.inputPath = null;
+		this.outputPath = null;
 	}
 	
 	//Getters
@@ -43,12 +44,12 @@ public class Context {
 		return this.checkPoints.get(index);
 	}
 	
-	public File getTargetFile(){
-		return this.targetFile;
+	public String getInputPath(){
+		return this.inputPath;
 	}
 	
-	public File getOutputFile(){
-		return this.outputFile;
+	public String getOutputPath(){
+		return this.outputPath;
 	}
 	
 	
@@ -149,12 +150,12 @@ public class Context {
 	}
 	
 	//Target file setter
-	public void setTargetFile(File file){
-		this.targetFile = file;
+	public void setInputPath(String path){
+		this.inputPath = path;
 	}
 	
-	void setOutputFile(File file){ //default visibility
-		this.outputFile = file;
+	void setOutputPath(String path){ //default visibility
+		this.outputPath = path;
 	}
 
 }

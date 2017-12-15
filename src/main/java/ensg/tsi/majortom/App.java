@@ -14,7 +14,7 @@ public class App
     public static void main( String[] args ) throws IOException, SchemaException{
    
     	System.out.println( "Hello World!" );
-    	ShapefileUtils.writeShp();
+    	//ShapefileUtils.writeShp();
     	//TestGeoTools.readShp();
     	System.out.println( "Done!" );
 

@@ -137,17 +137,5 @@ public class ContextTest {
 		context.deleteCP(pt);
 		assertTrue(context.getCheckPoints().isEmpty());
 	}
-	
-	@Test
-	public void testSetLayer(){
-		
-		//Set up
-		Context context = new Context();
-		File targetFile = new File("inputs/test/test.shp");
-		
-		//Test
-		context.setTargetFile(targetFile);
-		assertNotNull(context.getTargetFile());
-	}
 
 }

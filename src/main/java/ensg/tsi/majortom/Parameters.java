@@ -2,35 +2,10 @@ package ensg.tsi.majortom;
 
 import java.util.List;
 
-public class Parameters {
-	
-	private List<Double> translation;
-	private List<Double> rotation;
-	private List<Double> scale;
-	
-	public List<Double> getTranslationParams(){
-		return this.translation;
-	}
-	
-	public List<Double> getRotationParams(){
-		return this.rotation;
-	}
+import com.vividsolutions.jts.geom.Coordinate;
 
-	public List<Double> getScaleParams(){
-		return this.scale;
-	}
+public interface Parameters {
 	
-	public void setTranslationParams(List<Double> tl){
-		this.translation = tl;
-	}
-	
-	public void setRotationParams(List<Double> tr){
-		this.rotation = tr;
-	}
-	
-	public void setScaleParams(List<Double> ts){
-		this.scale = ts;
-	}
-
+	public List<Coordinate> applyParam(List<Coordinate> coords);
 
 }

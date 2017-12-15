@@ -1,43 +1,38 @@
 package ensg.tsi.majortom;
 
 import java.io.File;
+import java.util.List;
 
-import org.geotools.feature.FeatureIterator;
-import org.opengis.feature.GeometryAttribute;
-import org.opengis.feature.simple.SimpleFeature;
+import com.vividsolutions.jts.geom.Coordinate;
 
 public class PointGeoreferencer extends Georeferencer{
 
 	@Override
 	public void applyTransfo(TypeTransfo type) {
 		
-		//Récupérer la transformation
+		//Get the transformation
 		Transformation transfo = this.getTransfoFactory().createTransfo(type);
 		transfo.setTransfoFromGCP();
+		Parameters param = transfo.getParam();
+					
+		//Get the input and output path
+		Context context = this.getContext();
+		String inputPath = context.getInputPath();
+		String outputPath = context.getOutputPath();
+						
+		//Get the layer
+		File layerFile = new File(inputPath);
 		
-		//Lire le shapefile
-		File layerFile = this.getContext().getTargetFile();
+		//Get the coordinates
+		List<Coordinate> coords = ShapefileUtils.getPointsCoordsFromShp(layerFile);
 		
-		//Récupérer les entités
-		try {
-	    	FeatureIterator<SimpleFeature> features = ShapefileUtils.getFeatureCollectionsFromShp(layerFile).features();
-	        while (features.hasNext()) {
-	            SimpleFeature feature = features.next();
-	            GeometryAttribute geomAttr = feature.getDefaultGeometryProperty();
-	        }
-	    }
-	    catch(Exception e) {
-	    	System.out.println(e);
-	    }
+		//Compute new coordinates using transformation parameters
+		List<Coordinate> newCoords = param.applyParam(coords);
 		
-		//Récupérer les géométries
+		//Write output layer with new coordinates
+		ShapefileUtils.writePointsShp(newCoords, outputPath);
 		
-		//Récupérer les coordonnées
-		
-		//Modifier les coordonnées
-		
-		//Commit
-		
+		//TODO: Generate report
 		
 	}
 

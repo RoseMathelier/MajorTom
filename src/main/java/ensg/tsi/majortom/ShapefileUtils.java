@@ -1,9 +1,8 @@
 package ensg.tsi.majortom;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,9 +20,9 @@ import org.geotools.data.collection.ListFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.data.simple.SimpleFeatureStore;
+import org.geotools.feature.DefaultFeatureCollection;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.feature.FeatureIterator;
-import org.geotools.feature.SchemaException;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.geotools.geometry.jts.JTSFactoryFinder;
@@ -67,24 +66,32 @@ public class ShapefileUtils {
 	    }
 	}
 	
-	public static FeatureCollection<SimpleFeatureType, SimpleFeature> getFeatureCollectionsFromShp(File file) throws IOException{
+	public static FeatureCollection<SimpleFeatureType, SimpleFeature> getFeatureCollectionsFromShp(File file) {
 		
 	    Map<String, Object> map = new HashMap<String, Object>();
-	    map.put("url", file.toURI().toURL());
+	    try {
+			map.put("url", file.toURI().toURL());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 
-	    DataStore dataStore = DataStoreFinder.getDataStore(map);
-	    String typeName = dataStore.getTypeNames()[0];
-
-	    FeatureSource<SimpleFeatureType, SimpleFeature> source = dataStore
-	            .getFeatureSource(typeName);
-	    Filter filter = Filter.INCLUDE;
-
-	    FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
-	    
-	    return collection;
+	    DataStore dataStore;
+		try {
+			dataStore = DataStoreFinder.getDataStore(map);
+			String typeName = dataStore.getTypeNames()[0];
+			FeatureSource<SimpleFeatureType, SimpleFeature> source = dataStore.getFeatureSource(typeName);
+			Filter filter = Filter.INCLUDE;
+		    FeatureCollection<SimpleFeatureType, SimpleFeature> collection = source.getFeatures(filter);
+		    return collection;
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			FeatureCollection<SimpleFeatureType, SimpleFeature> collection = new DefaultFeatureCollection();
+			return collection;
+		}
 	}
 	
-	public static List<Coordinate> getPointsCoordsFromShp(File file) throws IOException{
+	public static List<Coordinate> getPointsCoordsFromShp(File file){
 		
 		List<Coordinate> lCoord = new ArrayList<Coordinate>();
 		
@@ -106,7 +113,7 @@ public class ShapefileUtils {
 	}
 	
 	
-	public static void writeShp() throws SchemaException, IOException {
+	public static void writePointsShp(List<Coordinate> coords, String outPath) {
 		
 		//Type creation
 		
@@ -123,71 +130,70 @@ public class ShapefileUtils {
 		SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(featureType);
 		GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
 		List<SimpleFeature> features = new ArrayList<SimpleFeature>();
-		
-		Point point1 = geometryFactory.createPoint(new Coordinate(50, 50));
-		featureBuilder.add(point1);
-		featureBuilder.add(point1.getX());
-		featureBuilder.add(point1.getY());
-		SimpleFeature feature = featureBuilder.buildFeature( "fid.1" );
-		features.add(feature);
-		
-		Point point2 = geometryFactory.createPoint(new Coordinate(55, 45));
-		featureBuilder.add(point2);
-		featureBuilder.add(point2.getX());
-		featureBuilder.add(point2.getY());
-		feature = featureBuilder.buildFeature( "fid.2" );
-		features.add(feature);
-		
-		Point point3 = geometryFactory.createPoint(new Coordinate(45, 55));
-		featureBuilder.add(point3);
-		featureBuilder.add(point3.getX());
-		featureBuilder.add(point3.getY());
-		feature = featureBuilder.buildFeature( "fid.3" );
-		features.add(feature);
+				
+		for(Coordinate coord: coords){
+			Point point = geometryFactory.createPoint(coord);
+			featureBuilder.add(point);
+			featureBuilder.add(point.getX());
+			featureBuilder.add(point.getY());
+			SimpleFeature feature = featureBuilder.buildFeature( "fid.1" );
+			features.add(feature);
+		}
 		
 		//Shapefile creation
 		
 		FileDataStoreFactorySpi factory = FileDataStoreFinder.getDataStoreFactory("shp");
-
-		File file = new File("outputs/test.shp");
-		Map map = Collections.singletonMap("url", file.toURI().toURL());
-
-		DataStore dataStore = factory.createNewDataStore(map);
-
-		dataStore.createSchema(featureType);
+		File file = new File(outPath);
+		Map map;
 		
-		//Transaction
-		
-		Transaction transaction = new DefaultTransaction("create");
+		try {
+			
+			map = Collections.singletonMap("url", file.toURI().toURL());
+			DataStore dataStore;
+			
+			try {
+				
+				dataStore = factory.createNewDataStore(map);
+				dataStore.createSchema(featureType);
+				
+				//Transaction
+				Transaction transaction = new DefaultTransaction("create");
 
-        String typeName = dataStore.getTypeNames()[0];
-        SimpleFeatureSource featureSource = dataStore.getFeatureSource(typeName);
+		        String typeName = dataStore.getTypeNames()[0];
+		        SimpleFeatureSource featureSource = dataStore.getFeatureSource(typeName);
+		        
+		        if (featureSource instanceof SimpleFeatureStore) {
+		        	
+		            SimpleFeatureStore featureStore = (SimpleFeatureStore) featureSource;
+		            SimpleFeatureCollection collection = new ListFeatureCollection(featureType, features);
+		            featureStore.setTransaction(transaction);
+		            
+		            try {
+		                featureStore.addFeatures(collection);
+		                transaction.commit();
 
-        if (featureSource instanceof SimpleFeatureStore) {
-        	
-            SimpleFeatureStore featureStore = (SimpleFeatureStore) featureSource;
-            SimpleFeatureCollection collection = new ListFeatureCollection(featureType, features);
-            featureStore.setTransaction(transaction);
-            
-            try {
-                featureStore.addFeatures(collection);
-                transaction.commit();
+		            } 
+		            catch (Exception problem) {
+		                problem.printStackTrace();
+		                transaction.rollback();
+		            } 
+		            finally {
+		                transaction.close();
+		            }
 
-            } catch (Exception problem) {
-                problem.printStackTrace();
-                transaction.rollback();
+		        } 
+		        else {
+		        	System.out.println(typeName + " does not support read/write access");
+		            System.exit(1);
+		        }
+				
+			} 
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 
-            } finally {
-                transaction.close();
-            }
-
-        } else {
-            System.out.println(typeName + " does not support read/write access");
-            System.exit(1);
-        }
-		
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}   
 	}
-		
-
-
 }
