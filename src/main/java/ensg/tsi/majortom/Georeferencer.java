@@ -7,6 +7,10 @@ public abstract class Georeferencer {
 	private Context context;
 	private TransformationFactory transfoFactory;
 	
+	public Georeferencer() {
+		this.transfoFactory = new TransformationFactory();
+	}
+	
 	public Context getContext() {
 		return this.context;
 	}

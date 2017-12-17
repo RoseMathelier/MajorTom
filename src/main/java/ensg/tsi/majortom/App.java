@@ -14,8 +14,14 @@ public class App
     public static void main( String[] args ) throws IOException, SchemaException{
    
     	System.out.println( "Hello World!" );
-    	//ShapefileUtils.writeShp();
-    	//TestGeoTools.readShp();
+    	
+    	String inputPath = "";
+    	String outputPath = "";
+    	
+    	Georeferencer g = new PointGeoreferencer();
+    	g.setContext(inputPath, outputPath);
+    	g.applyTransfo(g.getContext().getControlPoints(), TypeTransfo.LINEAIRE);
+    	
     	System.out.println( "Done!" );
 
     }

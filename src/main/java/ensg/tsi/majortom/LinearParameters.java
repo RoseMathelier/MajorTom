@@ -16,21 +16,34 @@ public class LinearParameters implements Parameters {
 		this.dy = dy;
 		this.dz = dz;
 	}
+	
+
+	public List<Double> getValues() {
+		List<Double> list = new ArrayList<Double>();
+		list.add(this.dx);
+		list.add(this.dy);
+		list.add(this.dz);
+		return list;
+	}
 
 	public List<Coordinate> applyParam(List<Coordinate> coords) {
 		
 		List<Coordinate> newCoords = new ArrayList<Coordinate>();
 		
+		double x, y, z, newX, newY, newZ;
+		
 		for(Coordinate coord: coords){
-			double newX = coord.getOrdinate(0) + this.dx;
-			double newY = coord.getOrdinate(1) + this.dy;
-			double newZ = coord.getOrdinate(2) + this.dz;
+			x = coord.getOrdinate(0);
+			y = coord.getOrdinate(1);
+			z = coord.getOrdinate(2);
+			newX = x + this.dx;
+			newY = y + this.dy;
+			newZ = z + this.dz;
 			Coordinate newCoord = new Coordinate(newX, newY, newZ);
 			newCoords.add(newCoord);
 		}
 		
 		return newCoords;
-		
 	}
 
 }
