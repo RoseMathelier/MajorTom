@@ -19,17 +19,18 @@ public abstract class Georeferencer {
 		return this.transfoFactory;
 	}
 	
-	public void setContext(String inputPath, String outputPath){
+	public void setContext(String inputPath, String outputPath, String outputName){
 		
 		//TODO: handle exceptions (invalid path)
 		Context c = new Context();
 		c.setInputPath(inputPath);
 		c.setOutputPath(outputPath);
+		c.setOutputName(outputName);
 		this.context = c;
 	}
 	
 	//TODO: handle exception (not enough GCPs)
 	
-	public abstract void applyTransfo(List<PointConnu> GCPs, TypeTransfo type);
+	public abstract void applyTransfo(List<ControlPoint> GCPs, List<CheckPoint> CPs, TypeTransfo type);
 
 }

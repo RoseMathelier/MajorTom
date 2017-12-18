@@ -27,7 +27,7 @@ public class ContextTest {
 		Coordinate gCoord[] = {new Coordinate(4,5)};
 		CoordinateSequence groundCoord = new CoordinateArraySequence(gCoord);
 		GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
-		PointConnu pt = new PointConnu(basicCoord, groundCoord, geometryFactory);
+		ControlPoint pt = new ControlPoint(basicCoord, groundCoord, geometryFactory);
 		
 		//Test
 		context.addGCP(pt);
@@ -49,7 +49,7 @@ public class ContextTest {
 		Coordinate gCoord[] = {new Coordinate(4,5)};
 		CoordinateSequence groundCoord = new CoordinateArraySequence(gCoord);
 		GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
-		PointConnu pt = new PointConnu(basicCoord, groundCoord, geometryFactory);
+		ControlPoint pt = new ControlPoint(basicCoord, groundCoord, geometryFactory);
 		context.addGCP(pt);
 		
 		//Test
@@ -70,7 +70,7 @@ public class ContextTest {
 		Coordinate gCoord[] = {new Coordinate(4,5)};
 		CoordinateSequence groundCoord = new CoordinateArraySequence(gCoord);
 		GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
-		PointConnu pt = new PointConnu(basicCoord, groundCoord, geometryFactory);
+		ControlPoint pt = new ControlPoint(basicCoord, groundCoord, geometryFactory);
 		context.addGCP(pt);
 		
 		//Test
@@ -88,7 +88,7 @@ public class ContextTest {
 		Coordinate gCoord[] = {new Coordinate(4,5)};
 		CoordinateSequence groundCoord = new CoordinateArraySequence(gCoord);
 		GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
-		PointConnu pt = new PointConnu(basicCoord, groundCoord, geometryFactory);
+		CheckPoint pt = new CheckPoint(basicCoord, groundCoord, geometryFactory);
 		
 		//Test
 		context.addCP(pt);
@@ -109,7 +109,7 @@ public class ContextTest {
 		Coordinate gCoord[] = {new Coordinate(4,5)};
 		CoordinateSequence groundCoord = new CoordinateArraySequence(gCoord);
 		GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
-		PointConnu pt = new PointConnu(basicCoord, groundCoord, geometryFactory);
+		CheckPoint pt = new CheckPoint(basicCoord, groundCoord, geometryFactory);
 		context.addCP(pt);
 		
 		//Test
@@ -130,7 +130,7 @@ public class ContextTest {
 		Coordinate gCoord[] = {new Coordinate(4,5)};
 		CoordinateSequence groundCoord = new CoordinateArraySequence(gCoord);
 		GeometryFactory geometryFactory = JTSFactoryFinder.getGeometryFactory();
-		PointConnu pt = new PointConnu(basicCoord, groundCoord, geometryFactory);
+		CheckPoint pt = new CheckPoint(basicCoord, groundCoord, geometryFactory);
 		context.addCP(pt);
 		
 		//Test

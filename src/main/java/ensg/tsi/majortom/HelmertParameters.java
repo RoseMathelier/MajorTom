@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-public class HelbertParameters implements Parameters {
+public class HelmertParameters implements Parameters {
 	
 	private double T1;
 	private double T2;
@@ -15,7 +15,15 @@ public class HelbertParameters implements Parameters {
 	private double R3;
 	private double S;
 	
-
+	public HelmertParameters(double T1, double T2, double T3, double R1, double R2, double R3, double S){
+		this.T1 = T1;
+		this.T2 = T2;
+		this.T3 = T3;
+		this.R1 = R1;
+		this.R2 = R2;
+		this.R3 = R3;
+		this.S = S;
+	}
 
 	public List<Double> getValues() {
 		List<Double> list = new ArrayList<Double>();
@@ -28,8 +36,6 @@ public class HelbertParameters implements Parameters {
 		list.add(this.S);
 		return list;
 	}
-
-
 
 	public List<Coordinate> applyParam(List<Coordinate> coords) {
 		

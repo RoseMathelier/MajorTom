@@ -10,10 +10,10 @@ public class TransformationFactory {
 			case LINEAIRE:
 				transfo = new LinearTransfo();
 			case HELBERT:
-				transfo = new HelbertTransfo();
+				transfo = new HelmertTransfo();
 			default:
 				//TODO : manage exception
-				transfo = new HelbertTransfo();
+				transfo = new HelmertTransfo();
 		}
 		
 		return transfo;

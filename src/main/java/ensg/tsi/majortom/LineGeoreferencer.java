@@ -8,7 +8,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 public class LineGeoreferencer extends Georeferencer {
 
 	@Override
-	public void applyTransfo(List<PointConnu> GCPs, TypeTransfo type) {
+	public void applyTransfo(List<ControlPoint> GCPs, List<CheckPoint> CPs, TypeTransfo type) {
 		
 		// TODO: adapt to lines
 		
@@ -24,6 +24,14 @@ public class LineGeoreferencer extends Georeferencer {
 								
 		//Get the layer
 		File layerFile = new File(inputPath);
+		
+		/*
+		 * For each line in the layer :
+		 * Get the points
+		 * Then get the coordinates (Geometry.getCoordinates)
+		 * Then compute the new coordinates
+		 * Then write the line in the output layer
+		 */
 				
 		//Get the coordinates
 		List<Coordinate> coords = ShapefileUtils.getPointsCoordsFromShp(layerFile);

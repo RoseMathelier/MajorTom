@@ -44,9 +44,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.orangepalantir</groupId>
-			<artifactId>leastsquares</artifactId>
-			<version>1.0.0</version>
+			<groupId>org.ejml</groupId>
+			<artifactId>ejml-all</artifactId>
+			<version>0.32</version>
 		</dependency>
 	</dependencies>
 	<repositories>

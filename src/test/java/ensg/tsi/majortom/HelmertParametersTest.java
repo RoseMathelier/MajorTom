@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class HelbertParametersTest {
+public class HelmertParametersTest {
 
 	@Test
 	public void testApplyParam() {

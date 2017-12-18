@@ -8,7 +8,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 public class PointGeoreferencer extends Georeferencer{
 
 	@Override
-	public void applyTransfo(List<PointConnu> GCPs, TypeTransfo type) {
+	public void applyTransfo(List<ControlPoint> GCPs, List<CheckPoint> CPs, TypeTransfo type) {
 		
 		//Get the transformation
 		Transformation transfo = this.getTransfoFactory().createTransfo(type);
@@ -32,7 +32,11 @@ public class PointGeoreferencer extends Georeferencer{
 		//Write output layer with new coordinates
 		ShapefileUtils.writePointsShp(newCoords, outputPath);
 		
-		//TODO: Generate report
+		//Compute accuracy
+		transfo.computeAccuracy(CPs);
+		
+		//Generate report
+		transfo.generateReport(outputPath);
 		
 	}
 

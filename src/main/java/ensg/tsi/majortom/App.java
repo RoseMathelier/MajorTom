@@ -17,10 +17,11 @@ public class App
     	
     	String inputPath = "";
     	String outputPath = "";
+    	String outputName = "";
     	
     	Georeferencer g = new PointGeoreferencer();
-    	g.setContext(inputPath, outputPath);
-    	g.applyTransfo(g.getContext().getControlPoints(), TypeTransfo.LINEAIRE);
+    	g.setContext(inputPath, outputPath, outputName);
+    	g.applyTransfo(g.getContext().getControlPoints(), g.getContext().getCheckPoints(), TypeTransfo.LINEAIRE);
     	
     	System.out.println( "Done!" );
 

@@ -21,19 +21,19 @@ public class LinearTransfoTest {
 		
 		Transformation transfo = new LinearTransfo();
 		
-		PointConnu pt1 = Mockito.mock(PointConnu.class);
+		ControlPoint pt1 = Mockito.mock(ControlPoint.class);
 		Mockito.when(pt1.getBasicCoord()).thenReturn(new Coordinate(1,1,0));
 		Mockito.when(pt1.getGroundCoord()).thenReturn(new Coordinate(2,3,4));
 		
-		PointConnu pt2 = Mockito.mock(PointConnu.class);
+		ControlPoint pt2 = Mockito.mock(ControlPoint.class);
 		Mockito.when(pt2.getBasicCoord()).thenReturn(new Coordinate(-1,-1,0));
 		Mockito.when(pt2.getGroundCoord()).thenReturn(new Coordinate(1,0,3));
 		
-		PointConnu pt3 = Mockito.mock(PointConnu.class);
+		ControlPoint pt3 = Mockito.mock(ControlPoint.class);
 		Mockito.when(pt3.getBasicCoord()).thenReturn(new Coordinate(3,3,0));
 		Mockito.when(pt3.getGroundCoord()).thenReturn(new Coordinate(3,3,2));
 		
-		List<PointConnu> GCPs = new ArrayList<PointConnu>();
+		List<ControlPoint> GCPs = new ArrayList<ControlPoint>();
 		GCPs.add(pt1);
 		GCPs.add(pt2);
 		GCPs.add(pt3);

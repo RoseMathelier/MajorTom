@@ -5,7 +5,7 @@ import com.vividsolutions.jts.geom.CoordinateSequence;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
-public class PointConnu extends Point {
+public abstract class PointConnu extends Point {
 	
 	/**
 	 * 

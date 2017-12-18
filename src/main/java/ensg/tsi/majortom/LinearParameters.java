@@ -17,7 +17,6 @@ public class LinearParameters implements Parameters {
 		this.dz = dz;
 	}
 	
-
 	public List<Double> getValues() {
 		List<Double> list = new ArrayList<Double>();
 		list.add(this.dx);

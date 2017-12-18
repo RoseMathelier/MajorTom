@@ -5,7 +5,7 @@ import java.util.List;
 public class LinearTransfo extends Transformation {
 
 	@Override
-	public void setTransfoFromGCP(List<PointConnu> GCPs) {
+	public void setTransfoFromGCP(List<ControlPoint> GCPs) {
 		
 		double xBi, yBi, zBi, xGi, yGi, zGi;
 		double sumX = 0, sumY = 0, sumZ = 0;

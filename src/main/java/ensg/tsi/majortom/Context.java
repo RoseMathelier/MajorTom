@@ -1,6 +1,5 @@
 package ensg.tsi.majortom;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,21 +13,23 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 public class Context {
 	
 	//Attributes
-	private List<PointConnu> controlPoints;
-	private List<PointConnu> checkPoints;
+	private List<ControlPoint> controlPoints;
+	private List<CheckPoint> checkPoints;
 	private String inputPath;
 	private String outputPath;
+	private String outputName;
 	
 	//Constructor
 	public Context(){
-		this.controlPoints = new ArrayList<PointConnu>();
-		this.checkPoints = new ArrayList<PointConnu>();
+		this.controlPoints = new ArrayList<ControlPoint>();
+		this.checkPoints = new ArrayList<CheckPoint>();
 		this.inputPath = null;
 		this.outputPath = null;
+		this.outputName = null;
 	}
 	
 	//Getters
-	public List<PointConnu> getControlPoints(){
+	public List<ControlPoint> getControlPoints(){
 		return this.controlPoints;
 	}
 	
@@ -36,7 +37,7 @@ public class Context {
 		return this.controlPoints.get(index);
 	}
 	
-	public List<PointConnu> getCheckPoints(){
+	public List<CheckPoint> getCheckPoints(){
 		return this.checkPoints;
 	}
 	
@@ -52,10 +53,27 @@ public class Context {
 		return this.outputPath;
 	}
 	
+	public String getOutputName(){
+		return this.outputName;
+	}
+	
+	//File setters
+	public void setInputPath(String path){
+		this.inputPath = path;
+	}
+	
+	public void setOutputPath(String path){ 
+		this.outputPath = path;
+	}
+	
+	public void setOutputName(String name){
+		this.outputName = name;
+	}
+	
 	
 	//Add, move and delete ground control points
-	public void addGCP(PointConnu pt) {
-		this.controlPoints.add(pt);
+	public void addGCP(ControlPoint gcp) {
+		this.controlPoints.add(gcp);
 	}
 	
 	public void moveGCP(PointConnu pt, Coordinate basicCoord, Coordinate groundCoord) {
@@ -67,7 +85,7 @@ public class Context {
 			CoordinateSequence newBasicCoord = new CoordinateArraySequence(newBCoord);
 			Coordinate newGCoord[] = {groundCoord};
 			CoordinateSequence newGroundCoord = new CoordinateArraySequence(newGCoord);
-			PointConnu newPt = new PointConnu(newBasicCoord, newGroundCoord, geometryFactory);
+			ControlPoint newPt = new ControlPoint(newBasicCoord, newGroundCoord, geometryFactory);
 			this.controlPoints.set(index, newPt);
 		}
 		catch(Exception e){
@@ -84,7 +102,7 @@ public class Context {
 			CoordinateSequence newBasicCoord = new CoordinateArraySequence(newBCoord);
 			Coordinate newGCoord[] = {groundCoord};
 			CoordinateSequence newGroundCoord = new CoordinateArraySequence(newGCoord);
-			PointConnu newPt = new PointConnu(newBasicCoord, newGroundCoord, geometryFactory);
+			ControlPoint newPt = new ControlPoint(newBasicCoord, newGroundCoord, geometryFactory);
 			this.controlPoints.set(index, newPt);
 		}
 		catch(Exception e){
@@ -93,17 +111,18 @@ public class Context {
 		
 	}
 	
-	public void deleteGCP(PointConnu pt) {
-		this.controlPoints.remove(pt);
+	public void deleteGCP(ControlPoint gcp) {
+		this.controlPoints.remove(gcp);
 	}
 	
 	public void deleteGCP(int index) {
 		this.controlPoints.remove(index);
 	}
 	
+	
 	//Add, move and delete check points
-	public void addCP(PointConnu pt) {
-		this.checkPoints.add(pt);
+	public void addCP(CheckPoint cp) {
+		this.checkPoints.add(cp);
 	}
 	
 	public void moveCP(PointConnu pt, Coordinate basicCoord, Coordinate groundCoord) {
@@ -115,7 +134,7 @@ public class Context {
 			CoordinateSequence newBasicCoord = new CoordinateArraySequence(newBCoord);
 			Coordinate newGCoord[] = {groundCoord};
 			CoordinateSequence newGroundCoord = new CoordinateArraySequence(newGCoord);
-			PointConnu newPt = new PointConnu(newBasicCoord, newGroundCoord, geometryFactory);
+			CheckPoint newPt = new CheckPoint(newBasicCoord, newGroundCoord, geometryFactory);
 			this.checkPoints.set(index, newPt);
 		}
 		catch(Exception e){
@@ -132,7 +151,7 @@ public class Context {
 			CoordinateSequence newBasicCoord = new CoordinateArraySequence(newBCoord);
 			Coordinate newGCoord[] = {groundCoord};
 			CoordinateSequence newGroundCoord = new CoordinateArraySequence(newGCoord);
-			PointConnu newPt = new PointConnu(newBasicCoord, newGroundCoord, geometryFactory);
+			CheckPoint newPt = new CheckPoint(newBasicCoord, newGroundCoord, geometryFactory);
 			this.checkPoints.set(index, newPt);
 		}
 		catch(Exception e){
@@ -141,7 +160,7 @@ public class Context {
 		
 	}
 	
-	public void deleteCP(PointConnu pt) {
+	public void deleteCP(CheckPoint pt) {
 		this.checkPoints.remove(pt);
 	}
 	
@@ -149,13 +168,5 @@ public class Context {
 		this.checkPoints.remove(index);
 	}
 	
-	//Target file setter
-	public void setInputPath(String path){
-		this.inputPath = path;
-	}
-	
-	void setOutputPath(String path){ //default visibility
-		this.outputPath = path;
-	}
 
 }

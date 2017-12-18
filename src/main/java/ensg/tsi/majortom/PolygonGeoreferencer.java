@@ -8,7 +8,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 public class PolygonGeoreferencer extends Georeferencer{
 
 	@Override
-	public void applyTransfo(List<PointConnu> GCPs, TypeTransfo type) {
+	public void applyTransfo(List<ControlPoint> GCPs, List<CheckPoint> CPs, TypeTransfo type) {
 		
 		// TODO: adapt to polygons
 		
@@ -24,6 +24,15 @@ public class PolygonGeoreferencer extends Georeferencer{
 						
 		//Get the layer
 		File layerFile = new File(inputPath);
+		
+		/*
+		 * For each polygon in the layer :
+		 * Get the points (Geometry.getCoordinates)
+		 * TODO: manage the HOLES in polygons
+		 * Then get the coordinates
+		 * Then compute the new coordinates
+		 * Then write the polygon in the output layer
+		 */
 				
 		//Get the coordinates
 		List<Coordinate> coords = ShapefileUtils.getPointsCoordsFromShp(layerFile);
