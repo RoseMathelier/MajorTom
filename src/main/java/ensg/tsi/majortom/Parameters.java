@@ -8,6 +8,8 @@ public interface Parameters {
 	
 	public List<Double> getValues();
 	
-	public List<Coordinate> applyParam(List<Coordinate> coords);
+	public List<String> getNames();
+	
+	public List<Coordinate[]> applyParam(List<Coordinate[]> coords);
 
 }

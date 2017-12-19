@@ -21,7 +21,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-@PrepareForTest(ShapefileUtils.class)
+@PrepareForTest(ShapefileReader.class)
 @RunWith(PowerMockRunner.class)
 public class PointGeoreferencerTest {
 	

@@ -10,8 +10,6 @@ public class LineGeoreferencer extends Georeferencer {
 	@Override
 	public void applyTransfo(List<ControlPoint> GCPs, List<CheckPoint> CPs, TypeTransfo type) {
 		
-		// TODO: adapt to lines
-		
 		//Get the transformation
 		Transformation transfo = this.getTransfoFactory().createTransfo(type);
 		transfo.setTransfoFromGCP(GCPs);
@@ -21,28 +19,26 @@ public class LineGeoreferencer extends Georeferencer {
 		Context context = this.getContext();
 		String inputPath = context.getInputPath();
 		String outputPath = context.getOutputPath();
+		String outputName = context.getOutputName();
 								
 		//Get the layer
-		File layerFile = new File(inputPath);
-		
-		/*
-		 * For each line in the layer :
-		 * Get the points
-		 * Then get the coordinates (Geometry.getCoordinates)
-		 * Then compute the new coordinates
-		 * Then write the line in the output layer
-		 */
+		File layerFile = new File(inputPath);		
 				
 		//Get the coordinates
-		List<Coordinate> coords = ShapefileUtils.getPointsCoordsFromShp(layerFile);
+		List<Coordinate[]> coords = ShapefileReader.getCoordsFromShp(layerFile);
 				
 		//Compute new coordinates using transformation parameters
-		List<Coordinate> newCoords = param.applyParam(coords);
+		List<Coordinate[]> newCoords = param.applyParam(coords);
 				
 		//Write output layer with new coordinates
-		ShapefileUtils.writePointsShp(newCoords, outputPath);
+		ShapefileWriter writer = new ShapefileLineWriter();
+		writer.writeShp(newCoords, outputPath, outputName);
 				
-		//TODO: Generate report		
+		//Compute accuracy
+		transfo.computeAccuracy(CPs);
+				
+		//Generate report
+		transfo.generateReport(outputPath);	
 		
 	}
 

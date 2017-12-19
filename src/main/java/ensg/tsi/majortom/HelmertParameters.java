@@ -36,25 +36,53 @@ public class HelmertParameters implements Parameters {
 		list.add(this.S);
 		return list;
 	}
+	
+	public List<String> getNames(){
+		List<String> list = new ArrayList<String>();
+		list.add("T1");
+		list.add("T2");
+		list.add("T3");
+		list.add("R1");
+		list.add("R2");
+		list.add("R3");
+		list.add("S");
+		return list;
+	}
 
-	public List<Coordinate> applyParam(List<Coordinate> coords) {
+	public List<Coordinate[]> applyParam(List<Coordinate[]> coords) {
 		
-		List<Coordinate> newCoords = new ArrayList<Coordinate>();
+		List<Coordinate[]> newCoords = new ArrayList<Coordinate[]>();
 		
 		double x, y, z, newX, newY, newZ;
 		
-		for(Coordinate coord: coords){
-			x = coord.getOrdinate(0);
-			y = coord.getOrdinate(1);
-			z = coord.getOrdinate(2);
-			newX = T1 + (1 + S)*x - R3*y + R2*z;
-			newY = T1 + (1 + S)*y - R1*z + R3*x;
-			newZ = T1 + (1 + S)*z - R2*x + R1*y;
-			Coordinate newCoord = new Coordinate(newX, newY, newZ);
+		for(Coordinate[] coord: coords){
+			Coordinate[] newCoord = new Coordinate[coord.length];
+			for(int i = 0; i < coord.length; i++){
+				x = coord[i].getOrdinate(0);
+				y = coord[i].getOrdinate(1);
+				z = coord[i].getOrdinate(2);
+				newX = T1 + (1 + S)*x - R3*y + R2*z;
+				newY = T1 + (1 + S)*y - R1*z + R3*x;
+				newZ = T1 + (1 + S)*z - R2*x + R1*y;
+				newCoord[i] = new Coordinate(newX, newY, newZ);
+				
+			}
 			newCoords.add(newCoord);
 		}
 		
 		return newCoords;
+	}
+	
+	public String toString(){
+		String paramText = "";
+		List<Double> values = this.getValues();
+		List<String> names = this.getNames();
+		
+		for(int i = 0; i < names.size(); i++){
+			paramText += "- "+ names.get(i) + " = " + values.get(i) + ". \n";
+		}
+		
+		return paramText;
 	}
 
 }

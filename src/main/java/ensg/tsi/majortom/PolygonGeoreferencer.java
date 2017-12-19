@@ -10,8 +10,6 @@ public class PolygonGeoreferencer extends Georeferencer{
 	@Override
 	public void applyTransfo(List<ControlPoint> GCPs, List<CheckPoint> CPs, TypeTransfo type) {
 		
-		// TODO: adapt to polygons
-		
 		//Get the transformation
 		Transformation transfo = this.getTransfoFactory().createTransfo(type);
 		transfo.setTransfoFromGCP(GCPs);
@@ -21,29 +19,27 @@ public class PolygonGeoreferencer extends Georeferencer{
 		Context context = this.getContext();
 		String inputPath = context.getInputPath();
 		String outputPath = context.getOutputPath();
+		String outputName = context.getOutputName();
 						
 		//Get the layer
 		File layerFile = new File(inputPath);
 		
-		/*
-		 * For each polygon in the layer :
-		 * Get the points (Geometry.getCoordinates)
-		 * TODO: manage the HOLES in polygons
-		 * Then get the coordinates
-		 * Then compute the new coordinates
-		 * Then write the polygon in the output layer
-		 */
-				
 		//Get the coordinates
-		List<Coordinate> coords = ShapefileUtils.getPointsCoordsFromShp(layerFile);
+		//TODO: manage HOLES in polygons
+		List<Coordinate[]> coords = ShapefileReader.getCoordsFromShp(layerFile);
 				
 		//Compute new coordinates using transformation parameters
-		List<Coordinate> newCoords = param.applyParam(coords);
+		List<Coordinate[]> newCoords = param.applyParam(coords);
 				
 		//Write output layer with new coordinates
-		ShapefileUtils.writePointsShp(newCoords, outputPath);
+		ShapefileWriter writer = new ShapefilePolygonWriter();
+		writer.writeShp(newCoords, outputPath, outputName);
 				
-		//TODO: Generate report
+		//Compute accuracy
+		transfo.computeAccuracy(CPs);
+				
+		//Generate report
+		transfo.generateReport(outputPath);
 		
 	}
 

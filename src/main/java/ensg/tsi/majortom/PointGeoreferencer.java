@@ -19,18 +19,20 @@ public class PointGeoreferencer extends Georeferencer{
 		Context context = this.getContext();
 		String inputPath = context.getInputPath();
 		String outputPath = context.getOutputPath();
+		String outputName = context.getOutputName();
 						
 		//Get the layer
 		File layerFile = new File(inputPath);
 		
 		//Get the coordinates
-		List<Coordinate> coords = ShapefileUtils.getPointsCoordsFromShp(layerFile);
+		List<Coordinate[]> coords = ShapefileReader.getCoordsFromShp(layerFile);
 		
 		//Compute new coordinates using transformation parameters
-		List<Coordinate> newCoords = param.applyParam(coords);
+		List<Coordinate[]> newCoords = param.applyParam(coords);
 		
 		//Write output layer with new coordinates
-		ShapefileUtils.writePointsShp(newCoords, outputPath);
+		ShapefileWriter writer = new ShapefilePointWriter();
+		writer.writeShp(newCoords, outputPath, outputName);
 		
 		//Compute accuracy
 		transfo.computeAccuracy(CPs);

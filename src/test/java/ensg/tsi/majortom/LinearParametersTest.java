@@ -18,23 +18,26 @@ public class LinearParametersTest {
 		LinearParameters linearParam = new LinearParameters(1,2,-1);
 		
 		//Layer coordinates
-		List<Coordinate> oldCoords = new ArrayList<Coordinate>();
-		oldCoords.add(new Coordinate(1,2,3));
-		oldCoords.add(new Coordinate(4,5,6));
-		oldCoords.add(new Coordinate(7,8,9));
+		List<Coordinate[]> oldCoords = new ArrayList<Coordinate[]>();
+		oldCoords.add(new Coordinate[]{new Coordinate(1,2,3), new Coordinate(4,5,6)});
+		oldCoords.add(new Coordinate[]{new Coordinate(4,5,6), new Coordinate(7,8,9)});
+		oldCoords.add(new Coordinate[]{new Coordinate(7,8,9), new Coordinate(1,2,3)});
 		
 		//Expected coordinates
-		List<Coordinate> expCoords = new ArrayList<Coordinate>();
-		expCoords.add(new Coordinate(2,4,2));
-		expCoords.add(new Coordinate(5,7,5));
-		expCoords.add(new Coordinate(8,10,8));
+		List<Coordinate[]> expCoords = new ArrayList<Coordinate[]>();
+		expCoords.add(new Coordinate[]{new Coordinate(2,4,2), new Coordinate(5,7,5)});
+		expCoords.add(new Coordinate[]{new Coordinate(5,7,5), new Coordinate(8,10,8)});
+		expCoords.add(new Coordinate[]{new Coordinate(8,10,8), new Coordinate(2,4,2)});
 		
-		List<Coordinate> newCoords = linearParam.applyParam(oldCoords);
+		List<Coordinate[]> newCoords = linearParam.applyParam(oldCoords);
 		
 		for(int i = 0; i < newCoords.size(); i++){
-			assertEquals(newCoords.get(i).getOrdinate(0), expCoords.get(i).getOrdinate(0), 0.01);
-			assertEquals(newCoords.get(i).getOrdinate(1), expCoords.get(i).getOrdinate(1), 0.01);
-			assertEquals(newCoords.get(i).getOrdinate(2), expCoords.get(i).getOrdinate(2), 0.01);
+			assertEquals(newCoords.get(i)[0].getOrdinate(0), expCoords.get(i)[0].getOrdinate(0), 0.01);
+			assertEquals(newCoords.get(i)[1].getOrdinate(0), expCoords.get(i)[1].getOrdinate(0), 0.01);
+			assertEquals(newCoords.get(i)[0].getOrdinate(1), expCoords.get(i)[0].getOrdinate(1), 0.01);
+			assertEquals(newCoords.get(i)[1].getOrdinate(1), expCoords.get(i)[1].getOrdinate(1), 0.01);
+			assertEquals(newCoords.get(i)[0].getOrdinate(2), expCoords.get(i)[0].getOrdinate(2), 0.01);
+			assertEquals(newCoords.get(i)[1].getOrdinate(2), expCoords.get(i)[1].getOrdinate(2), 0.01);
 		}
 		
 	}
