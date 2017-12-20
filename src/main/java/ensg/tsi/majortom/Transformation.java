@@ -14,11 +14,29 @@ import com.vividsolutions.jts.geom.Coordinate;
 
 public abstract class Transformation implements Serializable {
 	
+	private List<ControlPoint> GCPs;
+	private List<CheckPoint> CPs;
 	private Parameters param;
 	private List<Double> residuals;
 	private List<Double> accuracy;
 	
 	public abstract int getNbMinGCP();
+	
+	public List<ControlPoint> getControlPoints(){
+		return this.GCPs;
+	}
+	
+	public List<CheckPoint> getCheckPoints(){
+		return this.CPs;
+	}
+	
+	public void setControlPoints(List<ControlPoint> GCPs){
+		this.GCPs = GCPs;
+	}
+	
+	public void setCheckPoints(List<CheckPoint> CPs){
+		this.CPs = CPs;
+	}
 	
 	public Parameters getParam(){
 		return this.param;
@@ -40,14 +58,14 @@ public abstract class Transformation implements Serializable {
 		return this.accuracy;
 	}
 	
-	public abstract void setTransfoFromGCP(List<ControlPoint> GCPs);
+	public abstract void setTransfoFromGCP();
 	
-	public void computeAccuracy(List<CheckPoint> CPs){
+	public void computeAccuracy(){
 		
 		List<Coordinate[]> basicCoord = new ArrayList<Coordinate[]>();
 		List<Coordinate[]> groundCoord = new ArrayList<Coordinate[]>();
 		
-		for(PointConnu pt: CPs) {
+		for(PointConnu pt: this.CPs) {
 			
 			//Basic coordinates
 			Coordinate[] bCoord = new Coordinate[]{pt.getBasicCoord()};
@@ -59,7 +77,7 @@ public abstract class Transformation implements Serializable {
 		}
 		
 		//We apply the transformation to the basic coordinates of the checkpoints
-		List<Coordinate[]> transfoCoord = this.param.applyParam(basicCoord);
+		List<Coordinate[]> transfoCoord = this.getParam().applyParam(basicCoord);
 		
 		//Then we compare the results to the real known coordinates
 		double RMS = 0, RMSX = 0, RMSY = 0, RMSZ = 0, xGi, yGi, zGi, xTi, yTi, zTi, distance;
@@ -100,6 +118,7 @@ public abstract class Transformation implements Serializable {
 		List<Double> paramValues = this.getParam().getValues();
 		List<Double> residuals = this.getResiduals();
 		List<Double> accuracy = this.getAccuracy();
+		List<ControlPoint> GCPs = this.getControlPoints();
 		
 		String transfoText = " GROUND CONTROL TO MAJOR TOM... \n"
 				+ "***** \n"
@@ -114,8 +133,12 @@ public abstract class Transformation implements Serializable {
 		
 		transfoText += "Residuals : \n";
 		
-		for(int i = 0; i < paramNames.size(); i++){
-			transfoText += "- Residual for " + paramNames.get(i) + " : " + residuals.get(i) + ". \n";
+		for(int i = 0; i < GCPs.size(); i++){
+			int numGCP = i+1;
+			transfoText += "GCP n° " + numGCP + " : \n";
+			transfoText += "- X = " + GCPs.get(i).getCoordinate().getOrdinate(0) + " => Rx = " + residuals.get(3*(i-1) + 1);
+			transfoText += "- Y = " + GCPs.get(i).getCoordinate().getOrdinate(1) + " => Ry = " + residuals.get(3*(i-1) + 2);
+			transfoText += "- Z = " + GCPs.get(i).getCoordinate().getOrdinate(2) + " => Rz = " + residuals.get(3*i);
 		}
 		
 		transfoText += "Accuracy : \n"

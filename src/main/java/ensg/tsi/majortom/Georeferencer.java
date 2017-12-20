@@ -31,6 +31,6 @@ public abstract class Georeferencer {
 	
 	//TODO: handle exception (not enough GCPs)
 	
-	public abstract void applyTransfo(List<ControlPoint> GCPs, List<CheckPoint> CPs, TypeTransfo type);
+	public abstract void applyTransfo(TypeTransfo type);
 
 }

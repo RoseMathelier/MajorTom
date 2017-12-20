@@ -137,5 +137,53 @@ public class ContextTest {
 		context.deleteCP(pt);
 		assertTrue(context.getCheckPoints().isEmpty());
 	}
+	
+	@Test
+	public void testSetInputPath(){
+		Context context = new Context();
+		String inputPath = "input/input.shp";
+		context.setInputPath(inputPath);
+		assertEquals(context.getInputPath(), inputPath);
+	}
+	
+	@Test
+	public void testGetInputPath(){
+		Context context = new Context();
+		String inputPath = "input/input.shp";
+		context.setInputPath(inputPath);
+		assertEquals(context.getInputPath(), inputPath);
+	}
+	
+	@Test
+	public void testSetOutputPath(){
+		Context context = new Context();
+		String outputPath = "output";
+		context.setOutputPath(outputPath);
+		assertEquals(context.getOutputPath(), outputPath);
+	}
+	
+	@Test
+	public void testGetOutputPath(){
+		Context context = new Context();
+		String outputPath = "output";
+		context.setOutputPath(outputPath);
+		assertEquals(context.getOutputPath(), outputPath);
+	}
+	
+	@Test
+	public void testSetOutputName(){
+		Context context = new Context();
+		String outputName = "outputName";
+		context.setOutputName(outputName);
+		assertEquals(context.getOutputName(), outputName);
+	}
+	
+	@Test
+	public void testGetOutputName(){
+		Context context = new Context();
+		String outputName = "outputName";
+		context.setOutputName(outputName);
+		assertEquals(context.getOutputName(), outputName);
+	}
 
 }

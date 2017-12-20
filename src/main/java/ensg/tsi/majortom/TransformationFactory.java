@@ -4,16 +4,16 @@ public class TransformationFactory {
 	
 	public Transformation createTransfo(TypeTransfo type) {
 		
-		Transformation transfo;
+		Transformation transfo = null;
+		System.out.println(type);
 		
 		switch (type) {
 			case LINEAIRE:
 				transfo = new LinearTransfo();
-			case HELBERT:
+				break;
+			case HELMERT:
 				transfo = new HelmertTransfo();
-			default:
-				//TODO : manage exception
-				transfo = new HelmertTransfo();
+				break;
 		}
 		
 		return transfo;

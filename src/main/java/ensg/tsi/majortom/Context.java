@@ -28,6 +28,14 @@ public class Context {
 		this.outputName = null;
 	}
 	
+	public Context(String inputPath, String outputPath, String outputName){
+		this.controlPoints = new ArrayList<ControlPoint>();
+		this.checkPoints = new ArrayList<CheckPoint>();
+		this.inputPath = inputPath;
+		this.outputPath = outputPath;
+		this.outputName = outputName;
+	}
+	
 	//Getters
 	public List<ControlPoint> getControlPoints(){
 		return this.controlPoints;

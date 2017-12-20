@@ -21,7 +21,7 @@ public class App
     	
     	Georeferencer g = new PointGeoreferencer();
     	g.setContext(inputPath, outputPath, outputName);
-    	g.applyTransfo(g.getContext().getControlPoints(), g.getContext().getCheckPoints(), TypeTransfo.LINEAIRE);
+    	g.applyTransfo(TypeTransfo.LINEAIRE);
     	
     	System.out.println( "Done!" );
 

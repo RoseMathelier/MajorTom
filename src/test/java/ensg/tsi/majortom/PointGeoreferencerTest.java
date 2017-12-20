@@ -1,25 +1,13 @@
 package ensg.tsi.majortom;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureIterator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import com.vividsolutions.jts.geom.Coordinate;
 
 @PrepareForTest(ShapefileReader.class)
 @RunWith(PowerMockRunner.class)
@@ -29,6 +17,17 @@ public class PointGeoreferencerTest {
     @Before
     public void setUp() {
     	MockitoAnnotations.initMocks(this);
+    }
+    
+    @Test
+    public void testSetContext(){
+    	Georeferencer g = new PointGeoreferencer();
+    	String inputPath = "input/input.shp";
+    	String outputPath = "output";
+    	String outputName = "output";
+    	g.setContext(inputPath, outputPath, outputName);
+    	
+    	assertNotNull(g.getContext());    	
     }
 
 //	@Test

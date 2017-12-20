@@ -62,8 +62,8 @@ public class HelmertParameters implements Parameters {
 				y = coord[i].getOrdinate(1);
 				z = coord[i].getOrdinate(2);
 				newX = T1 + (1 + S)*x - R3*y + R2*z;
-				newY = T1 + (1 + S)*y - R1*z + R3*x;
-				newZ = T1 + (1 + S)*z - R2*x + R1*y;
+				newY = T2 + (1 + S)*y - R1*z + R3*x;
+				newZ = T3 + (1 + S)*z - R2*x + R1*y;
 				newCoord[i] = new Coordinate(newX, newY, newZ);
 				
 			}

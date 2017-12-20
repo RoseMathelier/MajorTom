@@ -8,11 +8,11 @@ import com.vividsolutions.jts.geom.Coordinate;
 public class LineGeoreferencer extends Georeferencer {
 
 	@Override
-	public void applyTransfo(List<ControlPoint> GCPs, List<CheckPoint> CPs, TypeTransfo type) {
+	public void applyTransfo(TypeTransfo type) {
 		
 		//Get the transformation
 		Transformation transfo = this.getTransfoFactory().createTransfo(type);
-		transfo.setTransfoFromGCP(GCPs);
+		transfo.setTransfoFromGCP();
 		Parameters param = transfo.getParam();
 						
 		//Get the input and output path
@@ -35,7 +35,7 @@ public class LineGeoreferencer extends Georeferencer {
 		writer.writeShp(newCoords, outputPath, outputName);
 				
 		//Compute accuracy
-		transfo.computeAccuracy(CPs);
+		transfo.computeAccuracy();
 				
 		//Generate report
 		transfo.generateReport(outputPath);	

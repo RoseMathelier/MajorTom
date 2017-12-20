@@ -5,13 +5,13 @@ import java.util.List;
 public class LinearTransfo extends Transformation {
 
 	@Override
-	public void setTransfoFromGCP(List<ControlPoint> GCPs) {
+	public void setTransfoFromGCP() {
 		
 		double xBi, yBi, zBi, xGi, yGi, zGi;
 		double sumX = 0, sumY = 0, sumZ = 0;
-		double n = GCPs.size();
+		int n = this.getControlPoints().size();
 		
-		for(PointConnu pt: GCPs) {
+		for(PointConnu pt: this.getControlPoints()) {
 			
 			//Basic coordinates
 			xBi = pt.getBasicCoord().getOrdinate(0);

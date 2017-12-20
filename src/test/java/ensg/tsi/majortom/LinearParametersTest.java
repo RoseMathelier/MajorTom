@@ -41,5 +41,16 @@ public class LinearParametersTest {
 		}
 		
 	}
+	
+	@Test
+	public void testGetValues(){
+		
+		LinearParameters linearParam = new LinearParameters(1,2,-1);
+		List<Double> lParam = linearParam.getValues();
+		assertEquals(lParam.get(0), 1, 0.01);
+		assertEquals(lParam.get(1), 2, 0.01);
+		assertEquals(lParam.get(2), -1, 0.01);
+
+	}
 
 }
