@@ -44,19 +44,11 @@ public abstract class Georeferencer {
 	}
 	
 	/**
-	 * Method to set the context of transformation (input layer, output directory and name).
-	 * @param inputPath The path of the shapefile to georeference.
-	 * @param outputPath The directory where the output layer should be written.
-	 * @param outputName The name of the georeferenced shapefile.
-	 * @throws IOException
+	 * Method to set the context of transformation
+	 * @param c The context.
 	 */
-	public void setContext(String inputPath, String outputPath, String outputName) throws IOException{
+	public void setContext(Context c){
 		
-		//TODO: handle exceptions (invalid path)
-		Context c = new Context();
-		c.setInputPath(inputPath);
-		c.setOutputPath(outputPath);
-		c.setOutputName(outputName);
 		this.context = c;
 	}
 	

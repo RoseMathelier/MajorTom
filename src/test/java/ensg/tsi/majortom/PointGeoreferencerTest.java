@@ -27,12 +27,8 @@ public class PointGeoreferencerTest {
     	String inputPath = "input/input.shp";
     	String outputPath = "output";
     	String outputName = "output";
-    	try {
-			g.setContext(inputPath, outputPath, outputName);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	
+    	Context c = new Context(inputPath, outputPath, outputName);
+    	g.setContext(c);
     	assertNotNull(g.getContext());    	
     }
 

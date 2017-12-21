@@ -208,32 +208,35 @@ public abstract class Transformation implements Serializable {
 		List<Double> accuracy = this.getAccuracy();
 		List<ControlPoint> GCPs = this.getControlPoints();
 		
-		String transfoText = " GROUND CONTROL TO MAJOR TOM... \n"
-				+ "***** \n"
-				+ "\n"
-				+ "Transformation : " + this.getClass() + ". \n"
-				+ "\n"
-				+ "Parameters : \n";
+		String transfoText = "--- GROUND CONTROL TO MAJOR TOM... --- \r\n"
+				+ "\r\n"
+				+ "***** \r\n"
+				+ "\r\n"
+				+ "Transformation : " + this.getClass() + ". \r\n"
+				+ "\r\n"
+				+ "Parameters : \r\n";
 		
 		for(int i = 0; i < paramNames.size(); i++){
-			transfoText += "- " + paramNames.get(i) + " = " + paramValues.get(i) + ". \n";
+			transfoText += "- " + paramNames.get(i) + " = " + paramValues.get(i) + ". \r\n";
 		}
 		
-		transfoText += "Residuals : \n";
+		transfoText += "\r\n";
+		transfoText += "Residuals : \r\n";
 		
 		for(int i = 0; i < GCPs.size(); i++){
 			int numGCP = i+1;
-			transfoText += "GCP n° " + numGCP + " : \n";
-			transfoText += "- X = " + GCPs.get(i).getCoordinate().getOrdinate(0) + " => Rx = " + residuals.get(3*(i-1) + 1);
-			transfoText += "- Y = " + GCPs.get(i).getCoordinate().getOrdinate(1) + " => Ry = " + residuals.get(3*(i-1) + 2);
-			transfoText += "- Z = " + GCPs.get(i).getCoordinate().getOrdinate(2) + " => Rz = " + residuals.get(3*i);
+			transfoText += "GCP n° " + numGCP + " : \r\n";
+			transfoText += "- X = " + GCPs.get(i).getCoordinate().getOrdinate(0) + " => Rx = " + residuals.get(3*i) + "\r\n";
+			transfoText += "- Y = " + GCPs.get(i).getCoordinate().getOrdinate(1) + " => Ry = " + residuals.get(3*i + 1) + "\r\n";
+			transfoText += "- Z = " + GCPs.get(i).getCoordinate().getOrdinate(2) + " => Rz = " + residuals.get(3*i + 2) + "\r\n";
 		}
 		
+		transfoText += "\r\n";
 		transfoText += "Accuracy : \n"
-				+ "- RMS = " + accuracy.get(0) + "\n"
-				+ "- RMSx = " + accuracy.get(1) + "\n"
-				+ "- RMSy = " + accuracy.get(2) + "\n"
-				+ "- RMSz = " + accuracy.get(3) + "\n";
+				+ "- RMS = " + accuracy.get(0) + "\r\n"
+				+ "- RMSx = " + accuracy.get(1) + "\r\n"
+				+ "- RMSy = " + accuracy.get(2) + "\r\n"
+				+ "- RMSz = " + accuracy.get(3) + "\r\n";
 				
 		return transfoText;
 	}
@@ -253,6 +256,8 @@ public abstract class Transformation implements Serializable {
 					StandardCharsets.UTF_8, StandardOpenOption.WRITE);
 			
 			writer.write(this.writeReport());
+			writer.flush();
+			writer.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
