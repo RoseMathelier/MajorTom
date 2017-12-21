@@ -21,11 +21,36 @@ import org.opengis.feature.simple.SimpleFeatureType;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
+/**
+ * Abstract class for writing shapefiles : implemented by points, lines and polygons writers.
+ * @author Rose Mathelier
+ *
+ */
 public abstract class ShapefileWriter {
 	
+	/**
+	 * Method to create the SimpleFeatureType.
+	 * @return The SimpleFeatureType
+	 * @see org.opengis.feature.simple.SimpleFeatureType
+	 */
 	public abstract SimpleFeatureType createFeatureType();
+	
+	/**
+	 * Method to create a list of SimpleFeature with their coordinates and a FeatureSimpleType previously created.
+	 * @param coords The coordinates (in a list of array, one array = one feature) of the features we want to create.
+	 * @param featureType The FeatureType
+	 * @return The list of SimpleFeature.
+	 * @see org.opengis.feature.simple.SimpleFeatureType
+	 * @see org.opengis.feature.simple.SimpleFeature;
+	 */
 	public abstract List<SimpleFeature> createFeatureList(List<Coordinate[]> coords, SimpleFeatureType featureType);
 	
+	/**
+	 * Method to create a shapefile from a list of arrays of coordinates (one array = one feature).
+	 * @param coords The coordinates (in a list of array, one array = one feature) of the features we want to create.
+	 * @param outputPath The directory where the output layer should be written.
+	 * @param outputName The name of the georeferenced shapefile.
+	 */
 	public void writeShp(List<Coordinate[]> coords, String outputPath, String outputName) {
 		
 		//Type creation
@@ -39,6 +64,15 @@ public abstract class ShapefileWriter {
 		  
 	}
 	
+	/**
+	 * Method to create a layer from a list of features.
+	 * @param outputPath The directory where the output layer should be written.
+	 * @param outputName The name of the georeferenced shapefile.
+	 * @param featureType The FeatureType.
+	 * @param features The list of SimpleFeature.
+	 * @see org.opengis.feature.simple.SimpleFeatureType
+	 * @see org.opengis.feature.simple.SimpleFeature
+	 */
 	public void createLayer(String outputPath, String outputName, SimpleFeatureType featureType, List<SimpleFeature> features){
 		
 		FileDataStoreFactorySpi factory = FileDataStoreFinder.getDataStoreFactory("shp");

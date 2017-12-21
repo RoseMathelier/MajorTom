@@ -21,9 +21,19 @@ import org.opengis.filter.Filter;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 
+/**
+ * Class containing static methods to read a shapefile.
+ * @author Rose Mathelier
+ *
+ */
 public class ShapefileReader {
 	
 	
+	/**
+	 * Static method to get a collection of the features in a shapefile.
+	 * @param file The file from where the features will be extracted.
+	 * @return The features collection.
+	 */
 	public static FeatureCollection<SimpleFeatureType, SimpleFeature> getFeatureCollectionsFromShp(File file) {
 		
 	    Map<String, Object> map = new HashMap<String, Object>();
@@ -49,7 +59,11 @@ public class ShapefileReader {
 		}
 	}
 	
-	
+	/**
+	 * Static method to get the coordinates of the features in a shapefile.
+	 * @param file The file from where the coordinates will be extracted.
+	 * @return A list of coordinate arrays (one array = one feature).
+	 */
 	public static List<Coordinate[]> getCoordsFromShp(File file){
 		
 		List<Coordinate[]> lCoord = new ArrayList<Coordinate[]>();

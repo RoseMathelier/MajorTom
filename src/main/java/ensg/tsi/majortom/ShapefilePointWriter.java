@@ -14,8 +14,18 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
+/**
+ * Class for writing points shapefiles.
+ * @author Rose Mathelier
+ *
+ */
 public class ShapefilePointWriter extends ShapefileWriter {
 
+	/**
+	 * Method to create the SimpleFeatureType for points.
+	 * @return The SimpleFeatureType
+	 * @see org.opengis.feature.simple.SimpleFeatureType
+	 */
 	@Override
 	public SimpleFeatureType createFeatureType() {
 		
@@ -29,6 +39,14 @@ public class ShapefilePointWriter extends ShapefileWriter {
 		return featureType;
 	}
 
+	/**
+	 * Method to create a list of point SimpleFeature with their coordinates and a FeatureSimpleType previously created.
+	 * @param coords The coordinates (in a list of array, one array = one point) of the features we want to create.
+	 * @param featureType The FeatureType
+	 * @return The list of SimpleFeature.
+	 * @see org.opengis.feature.simple.SimpleFeatureType
+	 * @see org.opengis.feature.simple.SimpleFeature;
+	 */
 	@Override
 	public List<SimpleFeature> createFeatureList(List<Coordinate[]> coords, SimpleFeatureType featureType) {
 		

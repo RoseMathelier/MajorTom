@@ -7,8 +7,22 @@ import java.util.List;
 import org.ejml.factory.SingularMatrixException;
 import org.ejml.simple.SimpleMatrix;
 
+/**
+ * Concrete class for Helmert transformation.
+ * This transformation is defined by 3 parameters : T1, T2, T3 (translation), R1, R2, R3 (rotation), S (scale factor).
+ * @author Rose Mathelier
+ *
+ */
 public class HelmertTransfo extends Transformation{
-
+	
+	/**
+	 * Method to compute the Helmert parameters of the transformation using the ground control points.
+	 * Implementation method of the abstract function from class Transformation.
+	 * Sets the parameters and residuals attributes of class transformation according to the results of this computation.
+	 * The parameters and residuals are computed using a least square method.
+	 * @see HelmertParam
+	 * @throws SingularMatrixEception
+	 */
 	@Override
 	public void setTransfoFromGCP() {
 		
@@ -90,9 +104,15 @@ public class HelmertTransfo extends Transformation{
 				
 	}
 
+	/**
+	 * Method to get the minimum number of control points necessary to perform the transformation.
+	 * Implementation method of the abstract function from class Transformation.
+	 * Always returns 3 for a linear transformation
+	 * @see Transformation
+	 */
 	@Override
 	public int getNbMinGCP() {
-		return 2;
+		return 3;
 	}
 
 }

@@ -7,16 +7,35 @@ import com.vividsolutions.jts.geom.Coordinate;
 
 public class LinearParameters implements Parameters {
 	
+	/**
+	 * x translation
+	 */
 	private double dx;
+	/**
+	 * y translation
+	 */
 	private double dy;
+	/**
+	 * z translation
+	 */
 	private double dz;
 	
+	/**
+	 * Constructor for class LinearParameters
+	 * @param dx x translation
+	 * @param dy y translation
+	 * @param dz z translation
+	 */
 	public LinearParameters(double dx, double dy, double dz){
 		this.dx = dx;
 		this.dy = dy;
 		this.dz = dz;
 	}
 	
+	/**
+	 * Parameters values getter
+	 * @return the list of values of the parameters
+	 */
 	public List<Double> getValues() {
 		List<Double> list = new ArrayList<Double>();
 		list.add(this.dx);
@@ -25,6 +44,10 @@ public class LinearParameters implements Parameters {
 		return list;
 	}
 	
+	/**
+	 * Parameters names getter
+	 * @return the list of names of the parameters
+	 */
 	public List<String> getNames(){
 		List<String> list = new ArrayList<String>();
 		list.add("dx");
@@ -32,7 +55,12 @@ public class LinearParameters implements Parameters {
 		list.add("dz");
 		return list;
 	}
-
+	
+	/**
+	 * Method to apply the linear parameters previously computed and actually georeference the layer
+	 * @param coords : the list of original sets of coordinates of the features to georeference
+	 * @return the list of new sets of coordinates of the georeferenced features
+	 */
 	public List<Coordinate[]> applyParam(List<Coordinate[]> coords) {
 		
 		List<Coordinate[]> newCoords = new ArrayList<Coordinate[]>();
@@ -55,18 +83,5 @@ public class LinearParameters implements Parameters {
 		
 		return newCoords;
 	}
-	
-	public String toString(){
-		String paramText = "";
-		List<Double> values = this.getValues();
-		List<String> names = this.getNames();
-		
-		for(int i = 0; i < names.size(); i++){
-			paramText += "- "+ names.get(i) + " = " + values.get(i) + ". \n";
-		}
-		
-		return paramText;
-	}
-	
 
 }

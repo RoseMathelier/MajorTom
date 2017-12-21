@@ -5,8 +5,20 @@ import java.util.List;
 
 import com.vividsolutions.jts.geom.Coordinate;
 
+/**
+ * Concrete class for points georeferencer.
+ * This class is where the transformation is really applied to the input point layer.
+ * @author Rose Mathelier
+ *
+ */
 public class PointGeoreferencer extends Georeferencer{
 
+	/**
+	 * Method to apply the transformation to the context.
+	 * This does the real work.
+	 * Calls the transformation factory, creates the transformation, set the parameters using GCPs, apply the parameters to the features, and generates a report with the results (parameters, residuals, accuracy).
+	 * @param type The type of transformation to apply.
+	 */
 	@Override
 	public void applyTransfo(TypeTransfo type) {
 		

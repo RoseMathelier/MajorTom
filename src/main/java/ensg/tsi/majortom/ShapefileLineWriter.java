@@ -14,8 +14,18 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 
+/**
+ * Class for writing lines shapefiles.
+ * @author Rose Mathelier
+ *
+ */
 public class ShapefileLineWriter extends ShapefileWriter {
 
+	/**
+	 * Method to create the SimpleFeatureType for lines.
+	 * @return The SimpleFeatureType
+	 * @see org.opengis.feature.simple.SimpleFeatureType
+	 */
 	@Override
 	public SimpleFeatureType createFeatureType() {
 		
@@ -29,6 +39,14 @@ public class ShapefileLineWriter extends ShapefileWriter {
 		return featureType;
 	}
 
+	/**
+	 * Method to create a list of line SimpleFeature with their coordinates and a FeatureSimpleType previously created.
+	 * @param coords The coordinates (in a list of array, one array = one line) of the features we want to create.
+	 * @param featureType The FeatureType
+	 * @return The list of SimpleFeature.
+	 * @see org.opengis.feature.simple.SimpleFeatureType
+	 * @see org.opengis.feature.simple.SimpleFeature;
+	 */
 	@Override
 	public List<SimpleFeature> createFeatureList(List<Coordinate[]> coords, SimpleFeatureType featureType) {
 		

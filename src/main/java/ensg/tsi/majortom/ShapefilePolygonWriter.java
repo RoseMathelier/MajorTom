@@ -14,8 +14,18 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Polygon;
 
+/**
+ * Class for writing polygons shapefiles.
+ * @author Rose Mathelier
+ *
+ */
 public class ShapefilePolygonWriter extends ShapefileWriter {
 
+	/**
+	 * Method to create the SimpleFeatureType for polygons.
+	 * @return The SimpleFeatureType
+	 * @see org.opengis.feature.simple.SimpleFeatureType
+	 */
 	@Override
 	public SimpleFeatureType createFeatureType() {
 		
@@ -29,6 +39,14 @@ public class ShapefilePolygonWriter extends ShapefileWriter {
 		return featureType;
 	}
 
+	/**
+	 * Method to create a list of polygon SimpleFeature with their coordinates and a FeatureSimpleType previously created.
+	 * @param coords The coordinates (in a list of array, one array = one polygon) of the features we want to create.
+	 * @param featureType The FeatureType
+	 * @return The list of SimpleFeature.
+	 * @see org.opengis.feature.simple.SimpleFeatureType
+	 * @see org.opengis.feature.simple.SimpleFeature;
+	 */
 	@Override
 	public List<SimpleFeature> createFeatureList(List<Coordinate[]> coords, SimpleFeatureType featureType) {
 		

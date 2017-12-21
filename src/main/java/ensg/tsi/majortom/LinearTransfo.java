@@ -3,8 +3,22 @@ package ensg.tsi.majortom;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Concrete class for linear transformation.
+ * This transformation is defined by 3 parameters : dx, dy and dz.
+ * @author Rose Mathelier
+ *
+ */
 public class LinearTransfo extends Transformation {
 
+	/**
+	 * Method to compute the linear parameters of the transformation using the ground control points.
+	 * Implementation method of the abstract function from class Transformation.
+	 * Sets the parameters and residuals attributes of class transformation according to the results of this computation.
+	 * The parameters are set according to the average difference in x, y and z of the control points.
+	 * Always set the residuals to a list of 0 in the case of a linear transformation
+	 * @see LinearParam
+	 */
 	@Override
 	public void setTransfoFromGCP() {
 		
@@ -46,9 +60,15 @@ public class LinearTransfo extends Transformation {
 		
 	}
 
+	/**
+	 * Method to get the minimum number of control points necessary to perform the transformation.
+	 * Implementation method of the abstract function from class Transformation.
+	 * Always returns 1 for a linear transformation
+	 * @see Transformation
+	 */
 	@Override
 	public int getNbMinGCP() {
-		return 2;
+		return 1;
 	}
 
 }

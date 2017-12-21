@@ -2,6 +2,8 @@ package ensg.tsi.majortom;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +27,11 @@ public class PointGeoreferencerTest {
     	String inputPath = "input/input.shp";
     	String outputPath = "output";
     	String outputName = "output";
-    	g.setContext(inputPath, outputPath, outputName);
+    	try {
+			g.setContext(inputPath, outputPath, outputName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     	
     	assertNotNull(g.getContext());    	
     }
