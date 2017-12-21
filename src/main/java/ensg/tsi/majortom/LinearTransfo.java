@@ -1,5 +1,6 @@
 package ensg.tsi.majortom;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LinearTransfo extends Transformation {
@@ -36,6 +37,12 @@ public class LinearTransfo extends Transformation {
 		
 		Parameters param = new LinearParameters(dx, dy, dz);
 		this.setParam(param);
+		
+		List<Double> residuals = new ArrayList<Double>();
+		for(int i = 0; i < 3*this.getControlPoints().size(); i++){
+			residuals.add(0.0);
+		}
+		this.setResiduals(residuals);
 		
 	}
 

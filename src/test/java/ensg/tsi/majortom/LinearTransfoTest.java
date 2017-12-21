@@ -148,7 +148,12 @@ public class LinearTransfoTest {
 		List<Double> fakeParam = new ArrayList<Double>();
 		Collections.addAll(fakeParam, 1.0, 1.0, 3.0);
 		Mockito.when(p.getValues()).thenReturn(fakeParam);
-		Mockito.when(p.applyParam(Mockito.any(List.class))).thenCallRealMethod();
+		
+		List<Coordinate[]> fakeTransfoCoord = new ArrayList<Coordinate[]>();
+		fakeTransfoCoord.add(new Coordinate[]{new Coordinate(2, 2, 3)});
+		fakeTransfoCoord.add(new Coordinate[]{new Coordinate(0, 0, 3)});
+		fakeTransfoCoord.add(new Coordinate[]{new Coordinate(4, 4, 3)});
+		Mockito.when(p.applyParam(Mockito.any(List.class))).thenReturn(fakeTransfoCoord);
 		
 		t.setCheckPoints(CPs);
 		t.setParam(p);
@@ -156,10 +161,10 @@ public class LinearTransfoTest {
 		//Test
 		t.computeAccuracy();
 		assertNotNull(t.getAccuracy());
-		//assertEquals(t.getAccuracy().get(0), , 0.01);
-		//assertEquals(t.getAccuracy().get(1), , 0.01);
-		//assertEquals(t.getAccuracy().get(2), , 0.01);
-		//assertEquals(t.getAccuracy().get(3), , 0.01);
+		assertEquals(t.getAccuracy().get(0), 1.41, 0.01);
+		assertEquals(t.getAccuracy().get(1), 0.81, 0.01);
+		assertEquals(t.getAccuracy().get(2), 0.81, 0.01);
+		assertEquals(t.getAccuracy().get(3), 0.81, 0.01);
 		
 	}
 
