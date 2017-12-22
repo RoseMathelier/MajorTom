@@ -61,7 +61,7 @@ public class App
     	//Comment if the inputs are already created.
     	//createInputShp();
     	
-    	//User inputs.
+    	//User inputs
     	String inputPath = "inputs/testPolygon.shp";
     	String outputPath = "outputs";
     	String outputName = "testPolygonGeoref";
