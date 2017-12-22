@@ -23,12 +23,14 @@ public class LineGeoreferencer extends Georeferencer {
 	public void applyTransfo(TypeTransfo type) {
 		
 		//Get the transformation
+		Context context = this.getContext();
 		Transformation transfo = this.getTransfoFactory().createTransfo(type);
+		transfo.setControlPoints(context.getControlPoints());
+		transfo.setCheckPoints(context.getCheckPoints());
 		transfo.setTransfoFromGCP();
 		Parameters param = transfo.getParam();
 						
 		//Get the input and output path
-		Context context = this.getContext();
 		String inputPath = context.getInputPath();
 		String outputPath = context.getOutputPath();
 		String outputName = context.getOutputName();

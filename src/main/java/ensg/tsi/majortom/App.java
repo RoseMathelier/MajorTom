@@ -60,18 +60,29 @@ public class App
     	c.addCP(CP2);
     	
     	//Write the test point shapefile in the input directory.
-    	Coordinate[] lc1 = new Coordinate[] {c1};
-    	Coordinate[] lc2 = new Coordinate[] {c2};
-    	Coordinate[] lc3 = new Coordinate[] {c3};
-    	Coordinate[] lc4 = new Coordinate[] {c4};
-    	List<Coordinate[]> coords = new ArrayList<Coordinate[]>();
-    	Collections.addAll(coords, lc1, lc2, lc3, lc4);
-    	ShapefilePointWriter pointWriter = new ShapefilePointWriter();
-    	pointWriter.writeShp(coords, "inputs", "testPoint");
+    	Coordinate[] pc1 = new Coordinate[] {c1};
+    	Coordinate[] pc2 = new Coordinate[] {c2};
+    	Coordinate[] pc3 = new Coordinate[] {c3};
+    	Coordinate[] pc4 = new Coordinate[] {c4};
+    	List<Coordinate[]> pcoords = new ArrayList<Coordinate[]>();
+    	Collections.addAll(pcoords, pc1, pc2, pc3, pc4);
+    	ShapefileWriter pointWriter = new ShapefilePointWriter();
+    	pointWriter.writeShp(pcoords, "inputs", "testPoint");
     	
-    	Georeferencer g = new PointGeoreferencer();
+    	//Write the test line shapefile in the input directory.
+    	Coordinate[] lc1 = new Coordinate[] {c1, c2};
+    	Coordinate[] lc2 = new Coordinate[] {c3, c4};
+    	List<Coordinate[]> lcoords = new ArrayList<Coordinate[]>();
+    	Collections.addAll(lcoords,  lc1, lc2);
+    	ShapefileWriter lineWriter = new ShapefileLineWriter();
+    	lineWriter.writeShp(lcoords, "inputs", "testLine");
+    	
+    	//Georeferencer g = new PointGeoreferencer();
+    	Georeferencer g = new LineGeoreferencer();
+    	//Georeferencer g = new PolygonGeoreferencer();
     	g.setContext(c);
     	g.applyTransfo(TypeTransfo.LINEAIRE);
+    	//g.applyTransfo(TypeTransfo.HELMERT);
     	
     	System.out.println( "Done!" );
 
