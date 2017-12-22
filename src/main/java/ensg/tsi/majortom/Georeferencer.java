@@ -52,14 +52,12 @@ public abstract class Georeferencer {
 		this.context = c;
 	}
 	
-	//TODO: handle exception (not enough GCPs).
-	
 	/**
 	 * Method to apply the transformation to the context.
 	 * This does the real work.
 	 * Calls the transformation factory, creates the transformation, set the parameters using GCPs, apply the parameters to the features, and generates a report with the results (parameters, residuals, accuracy).
 	 * @param type The type of transformation to apply.
 	 */
-	public abstract void applyTransfo(TypeTransfo type);
+	public abstract void applyTransfo(TypeTransfo type) throws NotEnoughGCPsException;
 
 }

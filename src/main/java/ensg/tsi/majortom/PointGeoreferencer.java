@@ -20,39 +20,50 @@ public class PointGeoreferencer extends Georeferencer{
 	 * @param type The type of transformation to apply.
 	 */
 	@Override
-	public void applyTransfo(TypeTransfo type) {
+	public void applyTransfo(TypeTransfo type) throws NotEnoughGCPsException {
 		
 		//Get the transformation
 		Context context = this.getContext();
 		Transformation transfo = this.getTransfoFactory().createTransfo(type);
 		transfo.setControlPoints(context.getControlPoints());
 		transfo.setCheckPoints(context.getCheckPoints());
-		transfo.setTransfoFromGCP();
-		Parameters param = transfo.getParam();
-					
-		//Get the input and output path
-		String inputPath = context.getInputPath();
-		String outputPath = context.getOutputPath();
-		String outputName = context.getOutputName();
+		
+		if(transfo.hasEnoughGCPs()) {
+			
+			transfo.setTransfoFromGCP();
+			Parameters param = transfo.getParam();
 						
-		//Get the layer
-		File layerFile = new File(inputPath);
+			//Get the input and output path
+			String inputPath = context.getInputPath();
+			String outputPath = context.getOutputPath();
+			String outputName = context.getOutputName();
+							
+			//Get the layer
+			File layerFile = new File(inputPath);
+			
+			//Get the coordinates
+			List<Coordinate[]> coords = ShapefileReader.getCoordsFromShp(layerFile);
+			
+			//Compute new coordinates using transformation parameters
+			List<Coordinate[]> newCoords = param.applyParam(coords);
+			
+			//Write output layer with new coordinates
+			ShapefileWriter writer = new ShapefilePointWriter();
+			writer.writeShp(newCoords, outputPath, outputName);
+			
+			//Compute accuracy
+			transfo.computeAccuracy();
+			
+			//Generate report
+			transfo.generateReport(outputPath);
+			
+		}
+		else {
+			String errorMessage = "This transformation requires at least " + transfo.getNbMinGCP() + " control points. Please add some more.";
+			throw new NotEnoughGCPsException(errorMessage);
+		}
 		
-		//Get the coordinates
-		List<Coordinate[]> coords = ShapefileReader.getCoordsFromShp(layerFile);
 		
-		//Compute new coordinates using transformation parameters
-		List<Coordinate[]> newCoords = param.applyParam(coords);
-		
-		//Write output layer with new coordinates
-		ShapefileWriter writer = new ShapefilePointWriter();
-		writer.writeShp(newCoords, outputPath, outputName);
-		
-		//Compute accuracy
-		transfo.computeAccuracy();
-		
-		//Generate report
-		transfo.generateReport(outputPath);
 		
 	}
 

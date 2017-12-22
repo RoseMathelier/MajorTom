@@ -131,6 +131,16 @@ public abstract class Transformation implements Serializable {
 	}
 	
 	/**
+	 * Method to determine if the transformation has enough control points.
+	 * Note that even if this returns true, you may have to add some more control points if the system is not linearly independant. 
+	 * This is just the absolute minimum : if this returns false, the transformation cannot be performed.
+	 * @return True if the transformation has enough control points, False if not.
+	 */
+	public boolean hasEnoughGCPs() {
+		return this.GCPs.size() >= this.getNbMinGCP();
+	}
+	
+	/**
 	 * Abstract method to compute the parameters of the transformation using the ground control points.
 	 * The methods of computation differ according to the implementation.
 	 * Sets the parameters and residuals attributes of class transformation according to the results of this computation.
@@ -232,7 +242,7 @@ public abstract class Transformation implements Serializable {
 		}
 		
 		transfoText += "\r\n";
-		transfoText += "Accuracy : \n"
+		transfoText += "Accuracy : \r\n"
 				+ "- RMS = " + accuracy.get(0) + "\r\n"
 				+ "- RMSx = " + accuracy.get(1) + "\r\n"
 				+ "- RMSy = " + accuracy.get(2) + "\r\n"

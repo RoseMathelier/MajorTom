@@ -92,7 +92,7 @@ public class HelmertTransfo extends Transformation{
 			
 			//We extract and set the residuals
 			List<Double> resid = new ArrayList<Double>();
-			for(int j = 0; i < V.numRows(); j++){
+			for(int j = 0; j < V.numRows(); j++){
 				resid.add(V.get(j,0));
 			}
 			this.setResiduals(resid);

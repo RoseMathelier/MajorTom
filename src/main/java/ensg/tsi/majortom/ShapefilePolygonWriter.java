@@ -55,7 +55,15 @@ public class ShapefilePolygonWriter extends ShapefileWriter {
 		List<SimpleFeature> features = new ArrayList<SimpleFeature>();
 				
 		for(Coordinate[] coord: coords){
-			Polygon polygon = geometryFactory.createPolygon(coord);
+			
+			//We create a new set of coordinates, identical to the original one but closed, so we have a valid polygon
+			Coordinate[] closedCoord = new Coordinate[coord.length + 1];
+			for(int i = 0; i < coord.length; i++) {
+				closedCoord[i] = coord[i];
+			}
+			closedCoord[coord.length] = coord[0];
+			
+			Polygon polygon = geometryFactory.createPolygon(closedCoord);
 			featureBuilder.add(polygon);
 			featureBuilder.add(0);
 			SimpleFeature feature = featureBuilder.buildFeature( "fid.1" );

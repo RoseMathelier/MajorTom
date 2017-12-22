@@ -24,7 +24,8 @@ public class LinearTransfo extends Transformation {
 		
 		double xBi, yBi, zBi, xGi, yGi, zGi;
 		double sumX = 0, sumY = 0, sumZ = 0;
-		int n = this.getControlPoints().size();
+		List<ControlPoint> GCPs = this.getControlPoints();
+		int n = GCPs.size();
 		
 		for(PointConnu pt: this.getControlPoints()) {
 			
@@ -52,9 +53,13 @@ public class LinearTransfo extends Transformation {
 		Parameters param = new LinearParameters(dx, dy, dz);
 		this.setParam(param);
 		
+		//Residuals
 		List<Double> residuals = new ArrayList<Double>();
-		for(int i = 0; i < 3*this.getControlPoints().size(); i++){
-			residuals.add(0.0);
+		for(int i = 0; i < n; i++){
+			ControlPoint pt = GCPs.get(i);
+			residuals.add(pt.getGroundCoord().getOrdinate(0) - (pt.getBasicCoord().getOrdinate(0) + dx));
+			residuals.add(pt.getGroundCoord().getOrdinate(1) - (pt.getBasicCoord().getOrdinate(1) + dy));
+			residuals.add(pt.getGroundCoord().getOrdinate(2) - (pt.getBasicCoord().getOrdinate(2) + dz));
 		}
 		this.setResiduals(residuals);
 		

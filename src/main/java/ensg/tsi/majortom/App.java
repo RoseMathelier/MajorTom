@@ -33,19 +33,25 @@ public class App
     	Coordinate c4 = new Coordinate(1,1,0);
     	
     	//Set the context of transformation
-    	Context c = new Context("inputs", "outputs", "testPointGeoref");
+    	Context c = new Context("inputs/testPolygon.shp", "outputs", "testPolygonGeoref");
     	Coordinate[] GCPBCoord1 = new Coordinate[] {new Coordinate(0,0,0)};
     	Coordinate[] GCPGCoord1 = new Coordinate[] {new Coordinate(2,1,0)};
     	Coordinate[] GCPBCoord2 = new Coordinate[] {new Coordinate(1,1,0)};
-    	Coordinate[] GCPGCoord2 = new Coordinate[] {new Coordinate(3.5,2.5,0)};
+    	Coordinate[] GCPGCoord2 = new Coordinate[] {new Coordinate(4,8,0)};
+    	Coordinate[] GCPBCoord3 = new Coordinate[] {new Coordinate(3,5,0)};
+    	Coordinate[] GCPGCoord3 = new Coordinate[] {new Coordinate(-1,7,0)};
     	CoordinateSequence GCPBasicCoord1 = new CoordinateArraySequence(GCPBCoord1);
     	CoordinateSequence GCPGroundCoord1 = new CoordinateArraySequence(GCPGCoord1);
     	CoordinateSequence GCPBasicCoord2 = new CoordinateArraySequence(GCPBCoord2);
     	CoordinateSequence GCPGroundCoord2 = new CoordinateArraySequence(GCPGCoord2);
+    	CoordinateSequence GCPBasicCoord3 = new CoordinateArraySequence(GCPBCoord3);
+    	CoordinateSequence GCPGroundCoord3 = new CoordinateArraySequence(GCPGCoord3);
     	ControlPoint GCP1 = new ControlPoint(GCPBasicCoord1,GCPGroundCoord1, geomFactory);
     	ControlPoint GCP2 = new ControlPoint(GCPBasicCoord2,GCPGroundCoord2, geomFactory);
+    	ControlPoint GCP3 = new ControlPoint(GCPBasicCoord3,GCPGroundCoord3, geomFactory);
     	c.addGCP(GCP1);
     	c.addGCP(GCP2);
+    	c.addGCP(GCP3);
     	Coordinate[] CPBCoord1 = new Coordinate[] {new Coordinate(1,0,0)};
     	Coordinate[] CPGCoord1 = new Coordinate[] {new Coordinate(3,1,0)};
     	Coordinate[] CPBCoord2 = new Coordinate[] {new Coordinate(1,1,0)};
@@ -77,12 +83,22 @@ public class App
     	ShapefileWriter lineWriter = new ShapefileLineWriter();
     	lineWriter.writeShp(lcoords, "inputs", "testLine");
     	
+    	//Write the test polygon shapefile in the input directory.
+    	Coordinate[] pgc = new Coordinate[] {c1, c2, c4, c3, c1};
+    	List<Coordinate[]> pgcoords = new ArrayList<Coordinate[]>();
+    	pgcoords.add(pgc);
+    	ShapefileWriter polygonWriter = new ShapefilePolygonWriter();
+    	polygonWriter.writeShp(pgcoords, "inputs", "testPolygon");
+    	
     	//Georeferencer g = new PointGeoreferencer();
-    	Georeferencer g = new LineGeoreferencer();
-    	//Georeferencer g = new PolygonGeoreferencer();
+    	//Georeferencer g = new LineGeoreferencer();
+    	Georeferencer g = new PolygonGeoreferencer();
     	g.setContext(c);
-    	g.applyTransfo(TypeTransfo.LINEAIRE);
-    	//g.applyTransfo(TypeTransfo.HELMERT);
+    	try {
+			g.applyTransfo(TypeTransfo.HELMERT);
+		} catch (NotEnoughGCPsException e) {
+			e.printStackTrace();
+		}
     	
     	System.out.println( "Done!" );
 

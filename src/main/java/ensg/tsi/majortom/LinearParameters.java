@@ -67,6 +67,13 @@ public class LinearParameters implements Parameters {
 		
 		double x, y, z, newX, newY, newZ;
 		
+		for(Coordinate[] coord: coords) {
+			System.out.println("POLYGONE");
+			for(int i = 0; i < coord.length; i++) {
+				System.out.println(coord[i]);
+			}
+		}
+		
 		for(Coordinate[] coord: coords){
 			Coordinate[] newCoord = new Coordinate[coord.length];
 			for(int i = 0; i < coord.length; i++){
@@ -81,7 +88,14 @@ public class LinearParameters implements Parameters {
 			newCoords.add(newCoord);
 		}
 		
+		for(Coordinate[] coord: newCoords) {
+			System.out.println("POLYGONE");
+			for(int i = 0; i < coord.length; i++) {
+				System.out.println(coord[i]);
+			}
+		}
 		return newCoords;
+		
 	}
 
 }

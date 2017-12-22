@@ -74,7 +74,7 @@ public class ShapefileReader {
 	        while (features.hasNext()) {
 	            SimpleFeature feature = features.next();
 	            Geometry geom = (Geometry) feature.getDefaultGeometry();
-	            Coordinate[] coords = geom.getCoordinates();	            
+	            Coordinate[] coords = geom.getCoordinates();	  
 	            lCoord.add(coords);
 	        }
 	    }
