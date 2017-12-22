@@ -19,21 +19,57 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
  */
 public class App 
 {	
-    
-    public static void main( String[] args ) throws IOException, SchemaException{
-   
-    	System.out.println( "Hello World!" );
-    	
-    	GeometryFactory geomFactory = JTSFactoryFinder.getGeometryFactory();
-    	
+	public static void createInputShp() {
+		    	
     	//Our basic coordinates
     	Coordinate c1 = new Coordinate(0,0,0);
     	Coordinate c2 = new Coordinate(0,1,0);
     	Coordinate c3 = new Coordinate(1,0,0);
     	Coordinate c4 = new Coordinate(1,1,0);
+		
+		//Write the test point shapefile in the input directory.
+    	Coordinate[] pc1 = new Coordinate[] {c1};
+    	Coordinate[] pc2 = new Coordinate[] {c2};
+    	Coordinate[] pc3 = new Coordinate[] {c3};
+    	Coordinate[] pc4 = new Coordinate[] {c4};
+    	List<Coordinate[]> pcoords = new ArrayList<Coordinate[]>();
+    	Collections.addAll(pcoords, pc1, pc2, pc3, pc4);
+    	ShapefileWriter pointWriter = new ShapefilePointWriter();
+    	pointWriter.writeShp(pcoords, "inputs", "testPoint");
+    	
+    	//Write the test line shapefile in the input directory.
+    	Coordinate[] lc1 = new Coordinate[] {c1, c2};
+    	Coordinate[] lc2 = new Coordinate[] {c3, c4};
+    	List<Coordinate[]> lcoords = new ArrayList<Coordinate[]>();
+    	Collections.addAll(lcoords,  lc1, lc2);
+    	ShapefileWriter lineWriter = new ShapefileLineWriter();
+    	lineWriter.writeShp(lcoords, "inputs", "testLine");
+    	
+    	//Write the test polygon shapefile in the input directory.
+    	Coordinate[] pgc = new Coordinate[] {c1, c2, c4, c3, c1};
+    	List<Coordinate[]> pgcoords = new ArrayList<Coordinate[]>();
+    	pgcoords.add(pgc);
+    	ShapefileWriter polygonWriter = new ShapefilePolygonWriter();
+    	polygonWriter.writeShp(pgcoords, "inputs", "testPolygon");
+		
+	}
+    
+    public static void main( String[] args ) throws IOException, SchemaException{
+   
+    	System.out.println( "Hello World!" );
+    	
+    	//Comment if the inputs are already created.
+    	//createInputShp();
+    	
+    	//User inputs.
+    	String inputPath = "inputs/testPolygon.shp";
+    	String outputPath = "outputs";
+    	String outputName = "testPolygonGeoref";
+    	TypeTransfo myType = TypeTransfo.HELMERT;
     	
     	//Set the context of transformation
-    	Context c = new Context("inputs/testPolygon.shp", "outputs", "testPolygonGeoref");
+    	GeometryFactory geomFactory = JTSFactoryFinder.getGeometryFactory();
+    	Context c = new Context(inputPath, outputPath, outputName);
     	Coordinate[] GCPBCoord1 = new Coordinate[] {new Coordinate(0,0,0)};
     	Coordinate[] GCPGCoord1 = new Coordinate[] {new Coordinate(2,1,0)};
     	Coordinate[] GCPBCoord2 = new Coordinate[] {new Coordinate(1,1,0)};
@@ -65,37 +101,15 @@ public class App
     	c.addCP(CP1);
     	c.addCP(CP2);
     	
-    	//Write the test point shapefile in the input directory.
-    	Coordinate[] pc1 = new Coordinate[] {c1};
-    	Coordinate[] pc2 = new Coordinate[] {c2};
-    	Coordinate[] pc3 = new Coordinate[] {c3};
-    	Coordinate[] pc4 = new Coordinate[] {c4};
-    	List<Coordinate[]> pcoords = new ArrayList<Coordinate[]>();
-    	Collections.addAll(pcoords, pc1, pc2, pc3, pc4);
-    	ShapefileWriter pointWriter = new ShapefilePointWriter();
-    	pointWriter.writeShp(pcoords, "inputs", "testPoint");
-    	
-    	//Write the test line shapefile in the input directory.
-    	Coordinate[] lc1 = new Coordinate[] {c1, c2};
-    	Coordinate[] lc2 = new Coordinate[] {c3, c4};
-    	List<Coordinate[]> lcoords = new ArrayList<Coordinate[]>();
-    	Collections.addAll(lcoords,  lc1, lc2);
-    	ShapefileWriter lineWriter = new ShapefileLineWriter();
-    	lineWriter.writeShp(lcoords, "inputs", "testLine");
-    	
-    	//Write the test polygon shapefile in the input directory.
-    	Coordinate[] pgc = new Coordinate[] {c1, c2, c4, c3, c1};
-    	List<Coordinate[]> pgcoords = new ArrayList<Coordinate[]>();
-    	pgcoords.add(pgc);
-    	ShapefileWriter polygonWriter = new ShapefilePolygonWriter();
-    	polygonWriter.writeShp(pgcoords, "inputs", "testPolygon");
-    	
+    	//Initialization : comment the unnecessary georeferencers
     	//Georeferencer g = new PointGeoreferencer();
     	//Georeferencer g = new LineGeoreferencer();
     	Georeferencer g = new PolygonGeoreferencer();
+    	
     	g.setContext(c);
+    	
     	try {
-			g.applyTransfo(TypeTransfo.HELMERT);
+			g.applyTransfo(myType);
 		} catch (NotEnoughGCPsException e) {
 			e.printStackTrace();
 		}

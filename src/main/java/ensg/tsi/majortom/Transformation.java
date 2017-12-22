@@ -149,59 +149,68 @@ public abstract class Transformation implements Serializable {
 	
 	/**
 	 * Method to compute the accuracy of the transformation using the control points.
+	 * The indacators for accuracy are the general RMS, and the RMS in x, y and z.
+	 * If the list of check points is empty, we set all theses indicators to 1.
 	 * 
 	 */
 	public void computeAccuracy(){
 		
-		List<Coordinate[]> basicCoord = new ArrayList<Coordinate[]>();
-		List<Coordinate[]> groundCoord = new ArrayList<Coordinate[]>();
-		
-		for(PointConnu pt: this.CPs) {
-			
-			//Basic coordinates
-			Coordinate[] bCoord = new Coordinate[]{pt.getBasicCoord()};
-			basicCoord.add(bCoord);
-			
-			//Ground coordinates
-			Coordinate[] gCoord = new Coordinate[]{pt.getGroundCoord()};
-			groundCoord.add(gCoord);
-		}
-		
-		//We apply the transformation to the basic coordinates of the checkpoints
-		List<Coordinate[]> transfoCoord = this.getParam().applyParam(basicCoord);
-		
-		//Then we compare the results to the real known coordinates
-		double RMS = 0, RMSX = 0, RMSY = 0, RMSZ = 0, xGi, yGi, zGi, xTi, yTi, zTi, coeffXi, coeffYi, coeffZi, distance;
-		double N = groundCoord.size();
-		
-		for(int i = 0; i < N; i++){
-			
-			xGi = groundCoord.get(i)[0].getOrdinate(0);
-			yGi = groundCoord.get(i)[0].getOrdinate(1);
-			zGi = groundCoord.get(i)[0].getOrdinate(2);
-			
-			xTi = transfoCoord.get(i)[0].getOrdinate(0);
-			yTi = transfoCoord.get(i)[0].getOrdinate(1);
-			zTi = transfoCoord.get(i)[0].getOrdinate(2);
-			
-			coeffXi = Math.pow(xGi - xTi, 2);
-			coeffYi = Math.pow(yGi - yTi, 2);
-			coeffZi = Math.pow(zGi - zTi, 2);
-			
-			RMS += coeffXi + coeffYi + coeffZi;
-			RMSX += coeffXi;
-			RMSY += coeffYi;
-			RMSZ += coeffZi;
-			
-		}
-		
-		RMS = Math.sqrt(1/N * RMS);
-		RMSX = Math.sqrt(1/N * RMSX);
-		RMSY = Math.sqrt(1/N * RMSY);
-		RMSZ = Math.sqrt(1/N * RMSZ);
-		
 		List<Double> transfoAccuracy = new ArrayList<Double>();
-		Collections.addAll(transfoAccuracy, RMS, RMSX, RMSY, RMSZ);
+		
+		if(this.CPs.isEmpty()) {
+			Collections.addAll(transfoAccuracy, 1.0, 1.0, 1.0, 1.0);
+		}
+		else {
+				
+			List<Coordinate[]> basicCoord = new ArrayList<Coordinate[]>();
+			List<Coordinate[]> groundCoord = new ArrayList<Coordinate[]>();
+			
+			for(PointConnu pt: this.CPs) {
+				
+				//Basic coordinates
+				Coordinate[] bCoord = new Coordinate[]{pt.getBasicCoord()};
+				basicCoord.add(bCoord);
+				
+				//Ground coordinates
+				Coordinate[] gCoord = new Coordinate[]{pt.getGroundCoord()};
+				groundCoord.add(gCoord);
+			}
+			
+			//We apply the transformation to the basic coordinates of the checkpoints
+			List<Coordinate[]> transfoCoord = this.getParam().applyParam(basicCoord);
+			
+			//Then we compare the results to the real known coordinates
+			double RMS = 0, RMSX = 0, RMSY = 0, RMSZ = 0, xGi, yGi, zGi, xTi, yTi, zTi, coeffXi, coeffYi, coeffZi, distance;
+			double N = groundCoord.size();
+			
+			for(int i = 0; i < N; i++){
+				
+				xGi = groundCoord.get(i)[0].getOrdinate(0);
+				yGi = groundCoord.get(i)[0].getOrdinate(1);
+				zGi = groundCoord.get(i)[0].getOrdinate(2);
+				
+				xTi = transfoCoord.get(i)[0].getOrdinate(0);
+				yTi = transfoCoord.get(i)[0].getOrdinate(1);
+				zTi = transfoCoord.get(i)[0].getOrdinate(2);
+				
+				coeffXi = Math.pow(xGi - xTi, 2);
+				coeffYi = Math.pow(yGi - yTi, 2);
+				coeffZi = Math.pow(zGi - zTi, 2);
+				
+				RMS += coeffXi + coeffYi + coeffZi;
+				RMSX += coeffXi;
+				RMSY += coeffYi;
+				RMSZ += coeffZi;
+				
+			}
+			
+			RMS = Math.sqrt(1/N * RMS);
+			RMSX = Math.sqrt(1/N * RMSX);
+			RMSY = Math.sqrt(1/N * RMSY);
+			RMSZ = Math.sqrt(1/N * RMSZ);
+			
+			Collections.addAll(transfoAccuracy, RMS, RMSX, RMSY, RMSZ);
+		}
 		
 		this.accuracy = transfoAccuracy;
 	}
