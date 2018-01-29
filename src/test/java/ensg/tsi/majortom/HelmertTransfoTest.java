@@ -58,7 +58,7 @@ public class HelmertTransfoTest {
 	@Test
 	public void testGetNbMinGCP(){
 		Transformation transfo = new LinearTransfo();
-		assertEquals(transfo.getNbMinGCP(), 2);
+		assertEquals(transfo.getNbMinGCP(), 3);
 	}
 
 }
