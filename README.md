@@ -1,15 +1,18 @@
-Documentation utilisateur de l'API de géoréférencement vecteur MajorTom.
+# Documentation utilisateur de l'API de géoréférencement vecteur MajorTom.
 
 1) Installez la librairie (.jar) dans les dépendances.
 
 2) Initialisez le contexte de transformation.
 
+```java
 Context c = new Context(inputPath, outputPath, outputName);
+```
 
 Inutile de préciser ".shp" à la fin de outputName.
 
 Si vous n'avez pas de shapefiles à géoréférencer mais que vous voulez tout de même tester cette magnifique API, vous pouvez utiliser les miens :
 
+```java
 //Our basic coordinates
 Coordinate c1 = new Coordinate(0,0,0);
 Coordinate c2 = new Coordinate(0,1,0);
@@ -40,11 +43,13 @@ List<Coordinate[]> pgcoords = new ArrayList<Coordinate[]>();
 pgcoords.add(pgc);
 ShapefileWriter polygonWriter = new ShapefilePolygonWriter();
 polygonWriter.writeShp(pgcoords, inputPath, "testPolygon");
+```
 
 Attention à bien remplacer inputPath par le chemin de votre dossier d'entrée.
 
 3) Rentrez des points d'appuis (ground control points).
 
+```java
 GeometryFactory geomFactory = JTSFactoryFinder.getGeometryFactory();
 Coordinate[] GCPBCoord1 = new Coordinate[] {new Coordinate(0,0,0)};
 Coordinate[] GCPGCoord1 = new Coordinate[] {new Coordinate(2,1,0)};
@@ -52,35 +57,44 @@ CoordinateSequence GCPBasicCoord1 = new CoordinateArraySequence(GCPBCoord1);
 CoordinateSequence GCPGroundCoord1 = new CoordinateArraySequence(GCPGCoord1);
 ControlPoint GCP1 = new ControlPoint(GCPBasicCoord1,GCPGroundCoord1, geomFactory);
 c.addGCP(GCP1);
+```
 
 4) Si vous le souhaitez, rentrez des points de contrôle (check points).
 
+```java
 Coordinate[] CPBCoord1 = new Coordinate[] {new Coordinate(0,0,0)};
 Coordinate[] CPGCoord1 = new Coordinate[] {new Coordinate(2,1,0)};
 CoordinateSequence CPBasicCoord1 = new CoordinateArraySequence(CPBCoord1);
 CoordinateSequence CPGroundCoord1 = new CoordinateArraySequence(CPGCoord1);
 ControlPoint CP1 = new ControlPoint(CPBasicCoord1,CPGroundCoord1, geomFactory);
 c.addGCP(CP1);
+```
 
 5) Initialisez le géoréférenceur de votre choix.
 
+```java
 Georeferencer g = new PointGeoreferencer();
 OU
 Georeferencer g = new LineGeoreferencer();
 OU
 Georeferencer g = new PolygonGeoreferencer();
+```
 
 6) Ajoutez le contexte au géoréférencer.
 
+```java
 g.setContext(c);
+```
 
 7) Lancez la transformation.
 
+```java
 try {
 	g.applyTransfo(myType);
 } catch (NotEnoughGCPsException e) {
 	e.printStackTrace();
 }
+```
 
 La paramètre myType correspond au type de transformation : les deux possibilités (pour l'instant) sont TypeTransfo.LINEAIRE ou TypeTransfo.HELMERT.
 
